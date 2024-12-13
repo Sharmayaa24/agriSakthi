@@ -11,8 +11,12 @@ import Register from "../screen/auth/signup";
 import ForgotPassword from "../screen/auth/forgot";
 import OtpPage from "../screen/auth/otp";
 import ViewCustomer from "../screen/Customer/ViewCustomer";
+import AddVendor from "../screen/Vendor/AddVendor";
+import UpdateVendor from "../screen/Vendor/UpdateVendor";
+import ViewVendor from "../screen/Vendor/ViewVendor"
 
 import React from 'react';
+
 
 const RouteComponent = () => {
   const location = useLocation();
@@ -39,6 +43,9 @@ const RouteComponent = () => {
             <Route path={APP_LINK.ADDCUSTOMER} element={<AddCustomer />} />
             <Route path={APP_LINK.EDITCUSTOMER} element={<UpdateCustomer />} />
             <Route path={APP_LINK.VIEWCUSTOMER} element={<ViewCustomer />} />
+            <Route path={APP_LINK.ADDVENDOR} element={<AddVendor />} />
+            <Route path={APP_LINK.EDITVENDOR} element={<UpdateVendor />} />
+            <Route path={APP_LINK.VIEWVENDOR} element={<ViewVendor />} />
           </Routes>
         </main>
       </div>
