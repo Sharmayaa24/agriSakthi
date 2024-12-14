@@ -14,7 +14,7 @@ import {
 import CommonDialog from "../common/Dialogbox";
 import "../../Styles/style.css"
 
-const UpdateVendor = () => {
+const UpdateAdmin = () => {
   const {
     register,
     handleSubmit,
@@ -40,7 +40,7 @@ const UpdateVendor = () => {
     <Container>
          <Box>
             <Typography variant="h5" gutterBottom sx={styles.title}>
-              Update Vendor
+              Update Admin
             </Typography>
           </Box>
       <Grid container spacing={2}>
@@ -179,11 +179,11 @@ const UpdateVendor = () => {
         open={dialogOpen}
         isSuccess={isSuccess}
         onClose={handleDialogClose}
-        messageSuccess="Vendor details Update successfully!"
+        messageSuccess="Vendor details Add successfully!"
         messageError="Failed to update the Vendor details."
       />
     </Container>
   );
 };
 
-export default UpdateVendor;
+export default UpdateAdmin;

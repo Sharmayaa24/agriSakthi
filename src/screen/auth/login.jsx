@@ -55,7 +55,7 @@ const Login = () => {
       }
       setOpenDialog(true);
       form.reset();
-    }, 6000);
+    }, 600);
   };
 
   const handleCloseDialog = () => {

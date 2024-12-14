@@ -179,8 +179,8 @@ const AddVendor = () => {
         open={dialogOpen}
         isSuccess={isSuccess}
         onClose={handleDialogClose}
-        messageSuccess="Customer details Add successfully!"
-        messageError="Failed to update the customer details."
+        messageSuccess="Vendor details Add successfully!"
+        messageError="Failed to update the Vendor details."
       />
     </Container>
   );

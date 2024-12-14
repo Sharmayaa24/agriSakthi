@@ -168,7 +168,7 @@ export const paginationStyles = {
     height: "40px",
     margin: "0 10px",
     "&:hover": {
-      backgroundColor: "#2f4cdd",
+      backgroundColor: "#1d7f41",
     },
   },
   arrayButtons: {

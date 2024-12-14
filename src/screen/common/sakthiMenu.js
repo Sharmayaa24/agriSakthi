@@ -18,6 +18,11 @@ export const APP_LINK = {
   LOGOUT: "/logout",
   FORGOTPASSWORD: "/forgot-password",
   OTP: "/otp",
+  UPDATEADMIN: "/update-admin",
+  VIEWADMIN: "/view-admin",
+  ADDWALLET: "/add-wallet",
+  QRCODE: "/generate-qr-code",
+  PAYPRIZE: "/pay-prize",
 };
 
 const menuItems = [
@@ -28,6 +33,15 @@ const menuItems = [
     url: APP_LINK.DASHBOARD,
   },
   {
+    key: "admin",
+    icon: <BorderColorOutlinedIcon />,
+    label: "Admin",
+    submenu: [
+      { name: "Update Admin", url: APP_LINK.UPDATEADMIN },
+      { name: "View Admin", url: APP_LINK.VIEWADMIN },
+    ],
+  },
+  {
     key: "customer",
     icon: <BorderColorOutlinedIcon />,
     label: "Customer",
@@ -35,6 +49,7 @@ const menuItems = [
       { name: "Add Customer", url: APP_LINK.ADDCUSTOMER },
       { name: "Update Customer", url: APP_LINK.EDITCUSTOMER },
       { name: "View Customer", url: APP_LINK.VIEWCUSTOMER },
+      { name: "Add Wallet", url: APP_LINK.ADDWALLET },
     ],
   },
   {
@@ -51,7 +66,10 @@ const menuItems = [
     key: "sales",
     icon: <CloudSyncOutlinedIcon />,
     label: "Sales",
-    submenu: [{ name: "Add New", url: APP_LINK.ADDSALES }],
+    submenu: [
+      { name: "Payment", url: APP_LINK.PAYPRIZE },
+      { name: "Generate-QR", url: APP_LINK.QRCODE },
+    ],
   },
   {
     key: "login",

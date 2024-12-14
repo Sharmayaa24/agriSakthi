@@ -14,6 +14,11 @@ import ViewCustomer from "../screen/Customer/ViewCustomer";
 import AddVendor from "../screen/Vendor/AddVendor";
 import UpdateVendor from "../screen/Vendor/UpdateVendor";
 import ViewVendor from "../screen/Vendor/ViewVendor"
+import UpdateAdmin from "../screen/admin/updateAdmin";
+import ViewAdmin from "../screen/admin/viewAdmin";
+import AddAmount from "../screen/sales/addAmount";
+import AddWallet from "../screen/Customer/AddWallet";
+import "../Styles/style.css"
 
 import React from 'react';
 
@@ -46,6 +51,10 @@ const RouteComponent = () => {
             <Route path={APP_LINK.ADDVENDOR} element={<AddVendor />} />
             <Route path={APP_LINK.EDITVENDOR} element={<UpdateVendor />} />
             <Route path={APP_LINK.VIEWVENDOR} element={<ViewVendor />} />
+            <Route path={APP_LINK.UPDATEADMIN} element={<UpdateAdmin />} />
+            <Route path={APP_LINK.VIEWADMIN} element={<ViewAdmin />} />
+            <Route path={APP_LINK.ADDWALLET} element={<AddWallet />} />
+            <Route path={APP_LINK.PAYPRIZE} element={<AddAmount />} />
           </Routes>
         </main>
       </div>
