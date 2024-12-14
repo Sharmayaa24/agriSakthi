@@ -3,10 +3,8 @@ import { useForm } from 'react-hook-form';
 import {   StyledBox,
   StyledContainer,
   StyledButton,
-  StyledButton1,
-  StyledTextField,
-  styles, } from '../../Styles/ComponentStyles/LoginStyles'
-import { Box, Grid, Icon, Typography, styled, Button, Link } from '@mui/material'
+  StyledTextField } from '../../Styles/ComponentStyles/LoginStyles'
+import { Grid, Typography } from '@mui/material'
 import StareBg from '../../image/addamountbg.jpg'
 
 const AddAmount = () => {
@@ -17,15 +15,6 @@ const AddAmount = () => {
   const onSubmit = async (data) => {
     // Handle form submission
   };
-
-  const handleForgotPassword = () => {
-    // Handle forgot password
-  };
-
-  const handleSignin = () => {
-    // Handle signin
-  };
-
   return (
     <StyledBox>
       <StyledContainer maxWidth="xs">
@@ -106,27 +95,6 @@ const AddAmount = () => {
             >
               {formState.isSubmitting ? "Signing in..." : "Submit"}
             </StyledButton>
-          </Grid>
-          <Grid item xs={12} align="center">
-            <Link to="/forgot-password" style={styles.forgotPassword}>
-              <Typography
-                variant="body2"
-                align="center"
-                padding="8px"
-                gutterBottom
-                onClick={handleForgotPassword}
-              >
-                Forgot Password?
-              </Typography>
-            </Link>
-            <Typography variant="body2" align="center" gutterBottom>
-              - - - - - - - - -  or - - - - - - - - -
-            </Typography>
-          </Grid>
- <Grid item xs={12} align="center">
-            <StyledButton1 variant="contained" fullWidth onClick={handleSignin}>
-              Register
-            </StyledButton1>
           </Grid>
         </Grid>
     
