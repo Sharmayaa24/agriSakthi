@@ -57,6 +57,28 @@ export const getColumnWidth = (field) => {
       lg: 100,
       xl: 100,
     },
+    id:{
+      xs: 23,
+      sm: 90,
+      md: 90,
+      lg: 80,
+      xl: 80,
+
+    },
+    name:{
+      xs: 23,
+      sm: 90,
+      md: 90,
+      lg: 100,
+      xl: 100,
+    },
+    email:{
+      xs: 23,
+      sm: 90,
+      md: 90,
+      lg: 100,
+      xl: 100,
+    }
   };
 
   const screenWidth = window.innerWidth;

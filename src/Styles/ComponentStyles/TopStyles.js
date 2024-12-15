@@ -47,6 +47,15 @@ export const topbarStyles = {
         backgroundColor: "#f5d0d0",
       },
     },
+    settingsButton1: {
+      backgroundColor: "#fff",
+      borderRadius: "8px",
+      width: "40px",
+      height: "40px",
+      "&:hover": {
+        backgroundColor: "#f5d0d0",
+      },
+    },
     settingsIcon: {
       color: "#ff9d88",
     },
@@ -78,9 +87,7 @@ export const topbarStyles = {
       padding: "5px",
     },
     profileImageContainer: {
-      position: "absolute",
-      top: "50%",
-      right: 0,
+      marginTop:"10px",
       transform: "translateY(-50%)",
       width: "40px",
       height: "40px",
@@ -91,6 +98,7 @@ export const topbarStyles = {
       zIndex: 2,
     },
     profileImage: {
+      border:"5px solid #fff",
       width: "100%",
       height: "100%",
       objectFit: "cover",

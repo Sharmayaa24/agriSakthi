@@ -18,7 +18,8 @@ import UpdateAdmin from "../screen/admin/updateAdmin";
 import ViewAdmin from "../screen/admin/viewAdmin";
 import AddAmount from "../screen/sales/addAmount";
 import AddWallet from "../screen/Customer/AddWallet";
-import QRCodeGenerator from "../screen/sales/QrCode";
+import Dashboard from "../screen/DashBoard"
+
 import "../Styles/style.css"
 
 import React from 'react';
@@ -56,7 +57,8 @@ const RouteComponent = () => {
             <Route path={APP_LINK.VIEWADMIN} element={<ViewAdmin />} />
             <Route path={APP_LINK.ADDWALLET} element={<AddWallet />} />
             <Route path={APP_LINK.PAYPRIZE} element={<AddAmount />} />
-            <Route path={APP_LINK.QRCODE} element={<QRCodeGenerator />} />
+            <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
+            
           </Routes>
         </main>
       </div>

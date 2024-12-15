@@ -3,6 +3,11 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import CloudSyncOutlinedIcon from "@mui/icons-material/CloudSyncOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import Admin from '@mui/icons-material/AdminPanelSettings';
+import Customer from '@mui/icons-material/SupervisorAccount';
+import Sales from '@mui/icons-material/PointOfSale';
+import LoginIn from '@mui/icons-material/Login';
+import ForgotPassword from '@mui/icons-material/Password';
 
 export const APP_LINK = {
   DASHBOARD: "/dashboard",
@@ -21,7 +26,6 @@ export const APP_LINK = {
   UPDATEADMIN: "/update-admin",
   VIEWADMIN: "/view-admin",
   ADDWALLET: "/add-wallet",
-  QRCODE: "/generate-qr-code",
   PAYPRIZE: "/pay-prize",
 };
 
@@ -34,7 +38,7 @@ const menuItems = [
   },
   {
     key: "admin",
-    icon: <BorderColorOutlinedIcon />,
+    icon: <Admin />,
     label: "Admin",
     submenu: [
       { name: "Update Admin", url: APP_LINK.UPDATEADMIN },
@@ -43,7 +47,7 @@ const menuItems = [
   },
   {
     key: "customer",
-    icon: <BorderColorOutlinedIcon />,
+    icon: <Customer />,
     label: "Customer",
     submenu: [
       { name: "Add Customer", url: APP_LINK.ADDCUSTOMER },
@@ -64,28 +68,21 @@ const menuItems = [
   },
   {
     key: "sales",
-    icon: <CloudSyncOutlinedIcon />,
+    icon: <Sales />,
     label: "Sales",
     submenu: [
       { name: "Payment", url: APP_LINK.PAYPRIZE },
-      { name: "Generate-QR", url: APP_LINK.QRCODE },
     ],
   },
   {
     key: "login",
-    icon: <SpeedIcon />,
+    icon: <LoginIn />,
     label: "Login",
     url: APP_LINK.LOGIN,
   },
   {
-    key: "logout",
-    icon: <SpeedIcon />,
-    label: "Logout",
-    url: APP_LINK.LOGOUT,
-  },
-  {
     key: "forgotPassword",
-    icon: <SpeedIcon />,
+    icon: <ForgotPassword />,
     label: "Forgot Password",
     url: APP_LINK.FORGOTPASSWORD,
   },
