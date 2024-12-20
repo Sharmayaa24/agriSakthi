@@ -14,6 +14,8 @@ import { ScaleLoader } from "react-spinners";
 import Logo from "../../image/logo.png";
 import { CheckCircle, Cancel } from "@mui/icons-material"; 
 import "../../Styles/login.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { logInProgress } from '../../redux/auth/authAction';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,6 +23,50 @@ const Login = () => {
   const [openDialog, setOpenDialog] = React.useState(false);
   const [dialogMessage, setDialogMessage] = React.useState("");
   const [dialogSuccess, setDialogSuccess] = React.useState(false);
+  const dispatch = useDispatch();
+  const timeoutRef = React.useRef(null); 
+
+  const form = useForm({
+    defaultValues: {
+      email: "admin@gmail.com",
+      password: "Test@12345",
+    },
+  });
+
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+  const loginState = useSelector((state) => state.login.user);
+  const { authSuccess, authError } = loginState;
+
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    setLoading(true);
+    dispatch(logInProgress({ email, password }));
+  };
+
+  React.useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading(false);
+        if (Boolean(authSuccess) === true) {
+          navigate("/dashboard");
+        } else if (Boolean(authError) === true) {
+          setOpenDialog(true);
+          setDialogMessage(authError?.message || "Login Failed! Please check your credentials.");
+          setDialogSuccess(false);
+          timeoutRef.current = setTimeout(() => {
+            setOpenDialog(false);
+          }, 1000);
+        }
+        form.reset();
+      }, 600);
+    }
+  }, [loading, authSuccess, authError, navigate]);
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    clearTimeout(timeoutRef.current); 
+  };
 
   const handleForgotPassword = () => {
     navigate("/forgot-password");
@@ -28,38 +74,6 @@ const Login = () => {
 
   const handleSignin = () => {
     navigate("/register");
-  };
-
-  const form = useForm({
-    defaultValues: {
-      email: "sampleyaa@gmail.com",
-      password: "pass",
-    },
-  });
-
-  const { register, handleSubmit, formState } = form;
-  const { errors } = formState;
-
-  const onSubmit = (data) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      const isSuccess = data.email === "sampleyaa@gmail.com" && data.password === "pass";
-      if (isSuccess) {
-        setDialogMessage("Login Successful!");
-        setDialogSuccess(true);
-        navigate("/dashboard");
-      } else {
-        setDialogMessage("Login Failed! Please check your credentials.");
-        setDialogSuccess(false);
-      }
-      setOpenDialog(true);
-      form.reset();
-    }, 600);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
   };
 
   return (
@@ -113,7 +127,7 @@ const Login = () => {
           </Grid>
           <Grid item xs={12}>
             <StyledButton
-              variant="contained"
+              variant ="contained"
               fullWidth
               onClick={handleSubmit(onSubmit)}
               disabled={formState.isSubmitting}
@@ -137,7 +151,7 @@ const Login = () => {
               - - - - - - - - -  or - - - - - - - - -
             </Typography>
           </Grid>
- <Grid item xs={12} align="center">
+          <Grid item xs={12} align="center">
             <StyledButton1 variant="contained" fullWidth onClick={handleSignin}>
               Register
             </StyledButton1>
@@ -165,14 +179,14 @@ const Login = () => {
           </>
         )}
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>
-            {dialogSuccess ? <CheckCircle style={{ color: "green" }} /> : <Cancel style={{ color: "red" }} />}
-          </DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" align="center">
-              {dialogMessage}
-            </Typography>
-          </DialogContent>
+      <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
+          {dialogSuccess ? <CheckCircle style={{ color: "green" }} /> : <Cancel style={{ color: "red" }} />}
+        </DialogTitle>
+        <DialogContent sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="body1">
+            {dialogMessage}
+          </Typography>
+        </DialogContent>
         </Dialog>
       </StyledContainer>
     </StyledBox>

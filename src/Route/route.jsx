@@ -19,6 +19,9 @@ import ViewAdmin from "../screen/admin/viewAdmin";
 import AddAmount from "../screen/sales/addAmount";
 import AddWallet from "../screen/Customer/AddWallet";
 import Dashboard from "../screen/DashBoard"
+import Dummy from "../screen/dummy";
+import ListPayments from "../screen/sales/listPayment";
+import DetailsTable from "../screen/Vendor/vendorParticularDetails";
 
 import "../Styles/style.css"
 
@@ -49,7 +52,7 @@ const RouteComponent = () => {
             <Route path={APP_LINK.OTP} element={<OtpPage />} />
             <Route path={APP_LINK.ADDCUSTOMER} element={<AddCustomer />} />
             <Route path={APP_LINK.EDITCUSTOMER} element={<UpdateCustomer />} />
-            <Route path={APP_LINK.VIEWCUSTOMER} element={<ViewCustomer />} />
+            <Route path={APP_LINK.CUSTOMERS} element={<ViewCustomer />} />
             <Route path={APP_LINK.ADDVENDOR} element={<AddVendor />} />
             <Route path={APP_LINK.EDITVENDOR} element={<UpdateVendor />} />
             <Route path={APP_LINK.VIEWVENDOR} element={<ViewVendor />} />
@@ -58,6 +61,8 @@ const RouteComponent = () => {
             <Route path={APP_LINK.ADDWALLET} element={<AddWallet />} />
             <Route path={APP_LINK.PAYPRIZE} element={<AddAmount />} />
             <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
+            <Route path={APP_LINK.TRANSACTIONS} element={<ListPayments />} />
+            <Route path={APP_LINK.PARTICULARVENDOR} element={<DetailsTable />} />
             
           </Routes>
         </main>
@@ -65,5 +70,6 @@ const RouteComponent = () => {
     </div>
   )
 }
+//
 
 export default RouteComponent;

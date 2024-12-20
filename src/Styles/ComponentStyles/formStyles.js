@@ -1,5 +1,5 @@
 import { Button, TextField, Container, styled } from "@mui/material";
-
+import axios from "axios";
 export const StyledContainer = styled(Container)(({ theme }) => ({
   backgroundColor: "#fff",
   padding: "30px 40px",
@@ -29,7 +29,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiInputBase-root": {
     backgroundColor: "#fff",
     borderRadius: "20px",
-    padding: "20px 10px",
+    padding: "10px 10px",
     "& input": {
       fontFamily: "Roboto, Helvetica, Arial, sans-serif",
       fontWeight: 400,
@@ -97,6 +97,13 @@ export const styles = {
     paddingTop: "15px",
     color: "#3E4954",
     fontWeight: "bold",
+  },
+  title_box: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: "0px",
+    paddingRight: "100px",
   },
   image: {
     borderRadius: "4px",
@@ -250,4 +257,14 @@ export const paginationStyles = {
     height: "40px",
     margin: "0 10px",
   },
+};
+
+export const setAuthHeader = (accessToken, refreshToken) => {
+  if (accessToken && refreshToken) {
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+  } else {
+    delete axios.defaults.headers.common["Authorization"];
+  }
 };

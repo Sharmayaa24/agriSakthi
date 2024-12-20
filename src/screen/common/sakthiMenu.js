@@ -3,21 +3,24 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import CloudSyncOutlinedIcon from "@mui/icons-material/CloudSyncOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import Admin from '@mui/icons-material/AdminPanelSettings';
-import Customer from '@mui/icons-material/SupervisorAccount';
-import Sales from '@mui/icons-material/PointOfSale';
-import LoginIn from '@mui/icons-material/Login';
-import ForgotPassword from '@mui/icons-material/Password';
+import Admin from "@mui/icons-material/AdminPanelSettings";
+import Customer from "@mui/icons-material/SupervisorAccount";
+import Sales from "@mui/icons-material/PointOfSale";
+import LoginIn from "@mui/icons-material/Login";
+import ForgotPassword from "@mui/icons-material/Password";
 
 export const APP_LINK = {
   DASHBOARD: "/dashboard",
   ADDCUSTOMER: "/customer/add",
   EDITCUSTOMER: "/customer/edit",
   VIEWCUSTOMER: "/customer/view",
+  CUSTOMERS: "/customer/list",
   ADDVENDOR: "/vendor/add",
-  EDITVENDOR: "/vendor/edit",
+  EDITVENDOR: "/vendor/edit/:id",
+  VENDORS: "/vendor/list",
   VIEWVENDOR: "/vendor/view",
-  ADDSALES: "/sales/add",
+  ADDPAYMENT: "/transaction/add",
+  TRANSACTIONS: "/transaction/list",
   LOGIN: "/",
   REGISTER: "/register",
   LOGOUT: "/logout",
@@ -27,6 +30,7 @@ export const APP_LINK = {
   VIEWADMIN: "/view-admin",
   ADDWALLET: "/add-wallet",
   PAYPRIZE: "/pay-prize",
+  PARTICULARVENDOR: "/vendor/view/:id",
 };
 
 const menuItems = [
@@ -36,55 +40,43 @@ const menuItems = [
     label: "Dashboard",
     url: APP_LINK.DASHBOARD,
   },
+
   {
-    key: "admin",
-    icon: <Admin />,
-    label: "Admin",
-    submenu: [
-      { name: "Update Admin", url: APP_LINK.UPDATEADMIN },
-      { name: "View Admin", url: APP_LINK.VIEWADMIN },
-    ],
-  },
-  {
-    key: "customer",
+    key: "customers",
     icon: <Customer />,
-    label: "Customer",
+    label: "Customers",
     submenu: [
-      { name: "Add Customer", url: APP_LINK.ADDCUSTOMER },
-      { name: "Update Customer", url: APP_LINK.EDITCUSTOMER },
-      { name: "View Customer", url: APP_LINK.VIEWCUSTOMER },
+      { name: "Customers", url: APP_LINK.CUSTOMERS },
       { name: "Add Wallet", url: APP_LINK.ADDWALLET },
     ],
   },
   {
-    key: "vendor",
+    key: "vendors",
     icon: <PeopleOutlineOutlinedIcon />,
-    label: "Vendor",
-    submenu: [
-      { name: "Add Vendor", url: APP_LINK.ADDVENDOR },
-      { name: "Update Vendor", url: APP_LINK.EDITVENDOR },
-      { name: "View Vendor", url: APP_LINK.VIEWVENDOR },
-    ],
+    label: "Vendors",
+    url: APP_LINK.VIEWVENDOR,
   },
   {
-    key: "sales",
+    key: "Transactions",
     icon: <Sales />,
-    label: "Sales",
+    label: "Transactions",
     submenu: [
-      { name: "Payment", url: APP_LINK.PAYPRIZE },
+      { name: "Add Payment", url: APP_LINK.PAYPRIZE },
+      { name: "Payment History", url: APP_LINK.TRANSACTIONS },
     ],
   },
-  {
-    key: "login",
-    icon: <LoginIn />,
-    label: "Login",
-    url: APP_LINK.LOGIN,
-  },
+
   {
     key: "forgotPassword",
     icon: <ForgotPassword />,
-    label: "Forgot Password",
+    label: "Change Password",
     url: APP_LINK.FORGOTPASSWORD,
+  },
+  {
+    key: "profile",
+    icon: <Admin />,
+    label: "My Profile",
+    url: APP_LINK.VIEWADMIN,
   },
 ];
 

@@ -18,7 +18,7 @@ body{
     flex-grow: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 16px;
+  
     box-sizing: border-box;
     background-color: #f9f9f9;
   }
@@ -65,10 +65,20 @@ body{
 .css-wjunl9-MuiTypography-root {
   font-size: 18px !important;
 }
-
+/* Media query to remove overflow hidden above 1440px */
+@media (min-width: 1440px) {
+  .MuiDataGrid-scrollbar {
+  overflow-y: auto !important;
+  }
+}
 .css-yacz8c-MuiTypography-root{
   font-size: 25px !important;
 }
+
+.css-1161meg{
+  padding-right: 10px;
+}
+
 @media only screen and (max-width: 1200px) {
   .css-wjunl9-MuiTypography-root {
     font-size: 14px !important;
@@ -90,11 +100,17 @@ body{
   .css-wjunl9-MuiTypography-root {
     font-size: 13px !important;
   }
+  .css-17sb78v {
+    padding-right: 20px !important;
+  }
 }
 
 @media only screen and (max-width: 480px) {
   .css-wjunl9-MuiTypography-root {
     font-size: 12px !important;
+  }
+  .css-17sb78v {
+    padding-right: 20px !important;
   }
 }
 }

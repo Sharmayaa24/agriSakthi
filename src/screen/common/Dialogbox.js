@@ -12,6 +12,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 
+export const defaultStatus = {
+  inProgress: false,
+  success: false,
+  error: false,
+  data: [],
+  message: null,
+  errormessage: null,
+};
+
 const styles = {
   dialogTitle: {
     textAlign: "center",
@@ -67,11 +76,7 @@ const CommonDialog = ({
           {isSuccess ? messageSuccess : messageError}
         </Typography>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: "center" }}>
-        <Button onClick={onClose} variant="contained" sx={styles.dialogButton}>
-          {isSuccess ? "Add More" : "Retry"}
-        </Button>
-      </DialogActions>
+      <DialogActions sx={{ justifyContent: "center" }}></DialogActions>
     </Dialog>
   );
 };

@@ -95,7 +95,7 @@ const AddAmount = () => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
-                    <Grid container spacing={2} className="login-page" paddingLeft={10}>
+                    <Grid container spacing={2} className="login-page" paddingLeft={15}>
                         <Grid item xs={6}>
                             <Typography variant="p" align="center" fontWeight={600} gutterBottom>
                                 Add Amount
@@ -123,24 +123,26 @@ const AddAmount = () => {
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="p" align="center" fontWeight={600} gutterBottom>
-                                Add vendor name
+                                Add vendor number
                             </Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <StyledTextField
-                                label="Vendor Name"
-                                id="VendorName"
-                                size="small"
-                                fullWidth
-                                {...register("VendorName", {
-                                    required: {
-                                        value: true,
-                                        message: "Missing Field VendorName",
-                                    },
-                                })}
-                                error={!!errors.VendorName}
-                                helperText={errors.VendorName?.message}
-                            />
+                           <StyledTextField
+                            label="Vendor Number"
+                            id="VendorNumber"
+                            size="small"
+                            fullWidth
+                            value={"9908789678"}
+                            {...register("VendorName", {
+                                required: {
+                                    value: true,
+                                    message: "Missing Field VendorName",
+                                },
+                            })}
+                            error={!!errors.VendorNumber}
+                            helperText={errors.VendorNumber?.message}
+                            InputProps={{ readOnly: true }}
+                        />
                         </Grid>
                         <Grid item xs={6}>
                             <Typography variant="p" align="center" fontWeight={600} gutterBottom>
@@ -153,6 +155,7 @@ const AddAmount = () => {
                                 id="CustomerName1"
                                 size="small"
                                 fullWidth
+                                value={"madhu"}
                                 {...register("CustomerName1", {
                                     required: {
                                         value: true,
@@ -161,6 +164,7 @@ const AddAmount = () => {
                                 })}
                                 error={!!errors.CustomerName1}
                                 helperText={errors.CustomerName1?.message}
+                                InputProps={{ readOnly: true }}
                             />
                         </Grid>
                         <Grid item xs={6}>

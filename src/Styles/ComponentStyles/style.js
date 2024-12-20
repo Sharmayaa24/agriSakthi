@@ -18,7 +18,7 @@ export const StyledContainer = styled("div")(({ theme }) => ({
 
 export const StyledDataGrid = styled(DataGrid)({
   border: "none",
-  overflowx: "auto",
+  overflowX: "auto",
 
   "& .MuiDataGrid-columnHeaders": {
     background: "#fff",
