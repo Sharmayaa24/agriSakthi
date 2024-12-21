@@ -1,6 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {
-  addVendorProgress,
   addVendorSuccess,
     addVendorFailure,
     updateVendor,
@@ -21,12 +20,6 @@ import {
     
 } from './vendoreffect'
 import {
-   
-    VENDOR_ADD_SUCCESS,
-    VENDOR_UPDATE_SUCCESS,
-    VENDOR_DELETE_SUCCESS,
-    VENDOR_VIEW_SUCCESS,
-    VENDOR_PARTICULAR_VIEW_SUCCESS,
     VENDOR_ADD_PROGRESS,
     VENDOR_VIEW_PROGRESS,
     VENDOR_DELETE_PROGRESS,

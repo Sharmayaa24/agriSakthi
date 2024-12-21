@@ -48,10 +48,11 @@ const vendorUpdateEffect = (id, formData) => {
     .catch(error => {
       console.log(error,"hello")
       console.log(error.response.data.message ,"hello")
-    reject(error.response.data.message || error.response.data.errorFields.email || error.response.data.errorFields.phone || error.response.data)
+    reject(handleApiError(error))
   });
   });
 };
+
 
 const vendorDeleteEffect = id => {
   const token = localStorage.getItem("accessToken");
@@ -116,6 +117,8 @@ const vendorParticularViewEffect = id => {
     });
   });
 };
+
+
 export {
     vendorAddEffect,
     vendorUpdateEffect,
@@ -123,4 +126,43 @@ export {
     vendorViewEffect,
     vendorParticularViewEffect,
   };
+  
+  export const handleApiError = (error) => {
+    console.log("Full Error Object:", error); 
+  
+    if (error.response) {
+      const errorData = error.response.data || {};
+      const errorFields = errorData.errorFields || {};
+  
+      console.log("Error Response Data:", errorData); 
+       
+      console.log("Error Response Data errorFields :", errorFields); 
+  
+  
+      return {
+        statusCode: error.response.status,
+        email: errorFields.email || null,
+        contact: errorFields.contact || null,
+        additionalErrors: errorFields,
+        message: errorData.message || "Unknown error occurred.",
+      };
+    } else if (error.request) {
+      console.log("Request without response:", error.request); // Log the request object
+  
+      return {
+        statusCode: null,
+        message: "No response received from the server. Please try again later.",
+      };
+    } else {
+      console.log("Unexpected error:", error);
+  
+      return {
+        statusCode: null,
+        message: error.message || "An unexpected error occurred.",
+      };
+    }
+  };
+  
+  
+
   

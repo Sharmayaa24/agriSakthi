@@ -102,7 +102,7 @@ export const viewVendorProgress = (payload) => {
 export const viewVendorFailure = (payload) => {    
     return {
         type: VENDOR_VIEW_FAILURE,
-        payload: payload
+        payload: payload   
     };
 };
 

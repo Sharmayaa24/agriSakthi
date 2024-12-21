@@ -24,164 +24,28 @@ import {
   paginationStyles,
 } from "../../Styles/ComponentStyles/style";
 import { getColumnWidth } from "../../Styles/datagridMQ";
-import {APP_LINK}from "../../screen/common/sakthiMenu"
-
-const dummyData =()=> [
-  {
-    "id": 1,
-    "Customer Id": "Customer 1",
-    "First Name": "John 1",
-    "Last Name": "Doe 1",
-    "Email": "john1@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 2,
-    "Customer Id": "Customer 2",
-    "First Name": "John 2",
-    "Last Name": "Doe 2",
-    "Email": "john2@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 3,
-    "Customer Id": "Customer 3",
-    "First Name": "John 3",
-    "Last Name": "Doe 3",
-    "Email": "john3@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 4,
-    "Customer Id": "Customer 4",
-    "First Name": "John 4",
-    "Last Name": "Doe 4",
-    "Email": "john4@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 5,
-    "Customer Id": "Customer 5",
-    "First Name": "John 5",
-    "Last Name": "Doe 5",
-    "Email": "john5@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 6,
-    "Customer Id": "Customer 6",
-    "First Name": "John 6",
-    "Last Name": "Doe 6",
-    "Email": "john6@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 7,
-    "Customer Id": "Customer 7",
-    "First Name": "John 7",
-    "Last Name": "Doe 7",
-    "Email": "john7@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 8,
-    "Customer Id": "Customer 8",
-    "First Name": "John 8",
-    "Last Name": "Doe 8",
-    "Email": "john8@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 9,
-    "Customer Id": "Customer 9",
-    "First Name": "John 9",
-    "Last Name": "Doe 9",
-    "Email": "john9@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 10,
-    "Customer Id": "Customer 10",
-    "First Name": "John 10",
-    "Last Name": "Doe 10",
-    "Email": "john10@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 11,
-    "Customer Id": "Customer 11",
-    "First Name": "John 11",
-    "Last Name": "Doe 11",
-    "Email": "john11@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 12,
-    "Customer Id": "Customer 12",
-    "First Name": "John 12",
-    "Last Name": "Doe 12",
-    "Email": "john12@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 13,
-    "Customer Id": "Customer 13",
-    "First Name": "John 13",
-    "Last Name": "Doe 13",
-    "Email": "john13@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 14,
-    "Customer Id": "Customer 14",
-    "First Name": "John 14",
-    "Last Name": "Doe 14",
-    "Email": "john14@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  },
-  {
-    "id": 15,
-    "Customer Id": "Customer 15",
-    "First Name": "John 15",
-    "Last Name": "Doe 15",
-    "Email": "john15@example.com",
-    "PhoneNumber": "123-456-7890",
-    "Address": "123 Main St, Anytown, USA"
-  }
-]
+import {APP_LINK}from "../../screen/common/sakthiMenu";
+import { useSelector, useDispatch } from 'react-redux';
+import { CircleLoader } from 'react-spinners'; 
 
 
 const columns = (handleDeleteRow) => [
 
-  { field: "Customer Id", headerName: "CustomerId", width: getColumnWidth("CustomerId") },
+{ field: "Customer Id", headerName: "CustomerId", width: getColumnWidth("CustomerId") },
   { field: "First Name", headerName: "FirstName", width: getColumnWidth("FirstName") },
   {
     field: "Last Name",
     headerName: "LastName",
     width: getColumnWidth("LastName"),
   },
-  { field: "Email", headerName: "email", width: getColumnWidth("Email") },
-  { field: "PhoneNumber", headerName: "Phone Number", width: getColumnWidth("PhoneNumber") },
+  { field: "Email", headerName: "email",width: getColumnWidth("Email") },
+  { field: "PhoneNumber", headerName: "Phone Number",width: getColumnWidth("PhoneNumber") },
   { field: "Address", headerName: "Address", width: getColumnWidth("Address") },
   
   {
     field: "actions",
     headerName: "Actions",
-    width: getColumnWidth("Actions"),
+    resizable: "false",
     renderCell: (params) => (
       <ActionMenu user={params.row} onDelete={handleDeleteRow} />
     ),
@@ -201,8 +65,8 @@ const ActionMenu = ({ user, onDelete }) => {
   };
 
   const handleEdit = () => {
-    console.log(`/${user["Customer Id"]}`);
-    navigator(`/${user["Customer Id"]}`);
+    console.log();
+    navigator(`/customer/edit/${user.id}`);
     handleClose();
   };
 
@@ -212,8 +76,7 @@ const ActionMenu = ({ user, onDelete }) => {
   };
 
   const handleView = () => {
-  console.log(`/${user["Customer Id"]}`);
-  navigator(`/${user["Customer Id"]}`);
+  navigator(`/vendor/view/${user.id}`);
   handleClose();
 };
 
@@ -232,14 +95,17 @@ const ActionMenu = ({ user, onDelete }) => {
 };
 
 const ViewCustomer = () => {
-  const [rows, setRows] = useState(dummyData());
+  const [rows, setRows] = useState([]);
   const [selection, setSelection] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
   const rowsPerPage = 10;
   const [openDialog, setOpenDialog] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const navigator = useNavigate();
+  const dispatch = useDispatch();
+  
 
   const handleDeleteRow = (id) => {
     setUserToDelete(id);

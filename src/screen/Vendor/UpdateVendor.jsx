@@ -29,7 +29,7 @@ const UpdateVendor = () => {
   } = useForm();
   const { id } = useParams();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(""); 
   const[mobileMessage,setMobileMessage]=useState("")
   const [errorMessage, setErrorMessage] = useState(""); 
@@ -37,6 +37,7 @@ const UpdateVendor = () => {
   const navigate = useNavigate();
   const getVendorData = useSelector((state) => state.vendor?.particularViewVendor.data);
   const vendorList = getVendorData?.data || [];
+
   useEffect(() => {
     dispatch(viewParticularVendorProgress(id));
   }, [dispatch, id]);
@@ -50,54 +51,93 @@ const UpdateVendor = () => {
       setValue("phone", vendorList.phone);
     }
   }, [vendorList, setValue]);
-    const UpdateVendor = useSelector((state) => state.vendor?.updateVendor);
-    console.log(UpdateVendor)
-      const onSubmit = async (data) => {
-        console.log(data);
-        dispatch(resetVendorState());
-        const formDate={id:id,data:data}
-        console.log(formDate);
-        dispatch(updateVendorProgress(formDate))
-      };
+  
+  const UpdateVendor = useSelector((state) => state.vendor?.updateVendor);
 
+  // Destructure properties from UpdateVendor
+  const {
+    inProgress,
+    success,
+    error,
+    data,
+    message,
+    errormessage,
+    err: {
+      additionalErrors: { phone } = {}, 
+      contact,
+      email,
+      message: errorMessage1,
+      statusCode,
+    } = {},
+  } = UpdateVendor || {}; 
+  console.log({
+    inProgress,
+    success,
+    error,
+    data,
+    message,
+    errormessage,
+    phone,
+    contact,
+    email,
+    errorMessage1,
+    statusCode,
+  });
+  
+  console.log(UpdateVendor);
+  
+  const onSubmit = async (data) => {
+    console.log(data);
+    dispatch(resetVendorState());
+    const formDate = { id: id, data: data };
+    console.log(formDate);
+    dispatch(updateVendorProgress(formDate));
+  };
   useEffect(() => {
-      if (UpdateVendor.success) {
-        console.log(UpdateVendor.success);
-        dispatch(resetVendorState());
-        setErrorMessage("");
-        setSuccessMessage("Vendor added successfully.");
-        setIsSuccess(true);
-        setDialogOpen(true);
-        reset();
-        setTimeout(() => {
-          setDialogOpen(false);
-          setIsSuccess(false);
-          navigate("/vendor/view");
-        }, 3000);
-      } else if (UpdateVendor.error) {
-        console.log(UpdateVendor.error);
-        dispatch(resetVendorState());
-        setSuccessMessage("");
-        // if (errormessage) {
-        //   console.log(errormessage);
-        //   // if (errormessage.includes("email must be unique")) {
-        //   //   setErrorMessage("Email already present.");
-        //   // } else if (errormessage.includes("contact must be unique")) {
-        //   //   setMobileMessage("Mobile number already present.");
-        //   // } else {
-        //   //   setErrorMessage(errormessage || "An error occurred while adding the vendor.");
-        //   // }
-        //   setTimeout(() => {
-        //     setErrorMessage("");
-        //     setMobileMessage("");
-        //   }, 3000);
-        // }
+    if (UpdateVendor.success) {
+      dispatch(resetVendorState());
+      setErrorMessage("");
+      setSuccessMessage("Vendor added successfully.");
+      setIsSuccess(true);
+      setDialogOpen(true);
+      reset();
+      setTimeout(() => {
+        setDialogOpen(false);
+        setIsSuccess(false);
+        setSuccessMessage("")
+        navigate("/dashboard");
+      }, 3000000);
+    } else if (UpdateVendor.error) {
+      dispatch(resetVendorState());
+      setSuccessMessage("");
+      const error = UpdateVendor.errormessage;
+      if (error && error.err && error.err.additionalErrors) {
+        const additionalErrors = error.err.additionalErrors;
+        if (additionalErrors.phone && additionalErrors.phone.includes("phone must be unique")) {
+          setMobileMessage("Phone number already exists.");
+        } else if (additionalErrors.contact && additionalErrors.contact.includes("contact must be unique")) {
+          setMobileMessage("Mobile number already exists.");
+        } else if (additionalErrors.email && additionalErrors.email.includes("email must be unique")) {
+          setErrorMessage("Email already exists.");
+        } else {
+          setErrorMessage(UpdateVendor.message || "This email id already added in diffrent mobile number22.");
+        }
+      } else {
+        setErrorMessage(UpdateVendor.message || "This email id already added in diffrent mobile number222.");
       }
-    }, []);
+  
+      setTimeout(() => {
+        setErrorMessage("");
+        setMobileMessage("");
+        setSuccessMessage("")
+      }, 3000);
+    }
+  }, [UpdateVendor]);
+  
   const handleDialogClose = () => {
     setDialogOpen(false);
     if (isSuccess) {
-      navigate('/vendor/view/:id');
+      navigate('/dashboard');
     }
   };
   return (

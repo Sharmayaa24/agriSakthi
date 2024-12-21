@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -13,8 +13,16 @@ import {
 } from "../../Styles/ComponentStyles/formStyles";
 import CommonDialog from "../common/Dialogbox";
 import "../../Styles/style.css"
+import { useDispatch, useSelector } from "react-redux";
+import { addCustomerProgress } from "../../redux/Customer/customerAction";
 
 const AddCustomer = () => {
+  const dispatch = useDispatch();
+  const addCustomerResponse = useSelector((state)=>state.customer.addCustomerState);
+  const {inProgress,success,error} = addCustomerResponse;
+  useEffect(()=>{
+    
+  },[addCustomerResponse])
   const {
     register,
     handleSubmit,
@@ -25,6 +33,7 @@ const AddCustomer = () => {
   const [isSuccess, setIsSuccess] = useState(true);
     const onSubmit = (data) => {
       if (data) {
+        dispatch(addCustomerProgress(data));
         setIsSuccess(true);
         setDialogOpen(true);
       } else {
@@ -35,6 +44,7 @@ const AddCustomer = () => {
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
+
 
   return (
     <Container>
@@ -55,11 +65,11 @@ const AddCustomer = () => {
             </Typography>
             <StyledTextField
               label="Name"
-              id="name"
+              id="first_name"
               size="large"
               fullWidth
               multiline
-              {...register("name", { required: "Name is required" })}
+              {...register("first_name", { required: "first_name is required" })}
               error={!!errors.name}
               helperText={errors.name ? errors.name.message : ""}
             />
@@ -74,11 +84,11 @@ const AddCustomer = () => {
             </Typography>
             <StyledTextField
               label="LastName"
-              id="LastName"
+              id="last_name"
               size="large"
               fullWidth
               multiline
-              {...register("name", { required: "LastName is required" })}
+              {...register("last_name", { required: "LastName is required" })}
               error={!!errors.LastName}
               helperText={errors.LastName ? errors.name.message : ""}
             />
@@ -138,12 +148,12 @@ const AddCustomer = () => {
             </Typography>
             <StyledTextField
             label="Phone Number"
-            id="phoneNumber"
+            id="phone"
             type="tel"
             size="large"
             fullWidth
             multiline
-            {...register("phoneNumber", {
+            {...register("phone", {
                 required: "Phone Number is required",
                 pattern: {
                 value: /^[6789]\d{9}$/,

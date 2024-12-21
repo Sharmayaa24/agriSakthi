@@ -129,39 +129,39 @@ const UpdateCustomer = () => {
             />
           </Box>
           <Box>
-                     <Typography
-                     variant="h6"
-                     fontSize={16}
-                     sx={styles.textFieldContainer}
-                     >
-                     Phone Number
-                     </Typography>
-                     <StyledTextField
-                     label="Phone Number"
-                     id="phoneNumber"
-                     type="tel"
-                     size="large"
-                     fullWidth
-                     multiline
-                     {...register("phoneNumber", {
-                         required: "Phone Number is required",
-                         pattern: {
-                         value: /^[6789]\d{9}$/,
-                         message: "Invalid phone number, should start with 6, 7, 8 or 9 and be 10 digits long",
-                         },
-                         minLength: {
-                         value: 10,
-                         message: "Phone number should be 10 digits long",
-                         },
-                         maxLength: {
-                         value: 10,
-                         message: "Phone number should be 10 digits long",
-                         },
-                     })}
-                     error={!!errors.phoneNumber}
-                     helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
-                     />
-                     </Box>
+            <Typography
+            variant="h6"
+            fontSize={16}
+            sx={styles.textFieldContainer}
+            >
+            Phone Number
+            </Typography>
+            <StyledTextField
+            label="Phone Number"
+            id="phoneNumber"
+            type="tel"
+            size="large"
+            fullWidth
+            multiline
+            {...register("phoneNumber", {
+                required: "Phone Number is required",
+                pattern: {
+                value: /^[6789]\d{9}$/,
+                message: "Invalid phone number, should start with 6, 7, 8 or 9 and be 10 digits long",
+                },
+                minLength: {
+                value: 10,
+                message: "Phone number should be 10 digits long",
+                },
+                maxLength: {
+                value: 10,
+                message: "Phone number should be 10 digits long",
+                },
+            })}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
+            />
+            </Box>
           <Box sx={ styles.submitGap }>
             <Grid item xs={3}>
               <StyledButton

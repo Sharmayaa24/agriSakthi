@@ -24,7 +24,7 @@ import {
 import { getColumnWidth } from "../../Styles/datagridMQ";
 import { APP_LINK } from "../../screen/common/sakthiMenu";
 import { viewVendorProgress, deleteVendorProgress } from "../../redux/Vendor/vendorAction";
-import { CircleLoader } from 'react-spinners'; // Import CircleLoader
+import { CircleLoader } from 'react-spinners'; 
 
 const columns = (handleDeleteRow) => [
   { field: "vendor_serial_no", headerName: "Vendor ID", width: getColumnWidth("CustomerId") },
@@ -98,7 +98,6 @@ const ViewVendor = () => {
   const [vendorToDelete, setVendorToDelete] = useState(null);
   const vendorData = useSelector((state) => state.vendor?.viewVendors.data);
   const vendorList = vendorData?.data || [];
-
   const totalRecords = vendorData?.totalRecords || 0;
   const vendorPageSize = vendorData?.pagesize || 10;
 
