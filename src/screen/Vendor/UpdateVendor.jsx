@@ -16,7 +16,7 @@ import CommonDialog from "../common/Dialogbox";
 import "../../Styles/style.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { viewParticularVendorProgress, updateVendorProgress,resetVendorState } from "../../redux/Vendor/vendorAction"; 
+import { viewParticularVendorProgress, updateVendorProgress, resetVendorState } from "../../redux/Vendor/vendorAction"; 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const UpdateVendor = () => {
@@ -31,7 +31,7 @@ const UpdateVendor = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(""); 
-  const[mobileMessage,setMobileMessage]=useState("")
+  const [mobileMessage, setMobileMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,107 +54,73 @@ const UpdateVendor = () => {
   
   const UpdateVendor = useSelector((state) => state.vendor?.updateVendor);
 
-  // Destructure properties from UpdateVendor
-  const {
-    inProgress,
-    success,
-    error,
-    data,
-    message,
-    errormessage,
-    err: {
-      additionalErrors: { phone } = {}, 
-      contact,
-      email,
-      message: errorMessage1,
-      statusCode,
-    } = {},
-  } = UpdateVendor || {}; 
-  console.log({
-    inProgress,
-    success,
-    error,
-    data,
-    message,
-    errormessage,
-    phone,
-    contact,
-    email,
-    errorMessage1,
-    statusCode,
-  });
-  
-  console.log(UpdateVendor);
-  
   const onSubmit = async (data) => {
     console.log(data);
     dispatch(resetVendorState());
-    const formDate = { id: id, data: data };
-    console.log(formDate);
-    dispatch(updateVendorProgress(formDate));
-  };
-  useEffect(() => {
-    if (UpdateVendor.success) {
-      dispatch(resetVendorState());
-      setErrorMessage("");
-      setSuccessMessage("Vendor added successfully.");
+    const formData = { id: id, data: data };
+    console.log(formData);
+    dispatch(updateVendorProgress(formData));
+    if (UpdateVendor?.success) {
+      setSuccessMessage("Vendor updated successfully.");
       setIsSuccess(true);
       setDialogOpen(true);
-      reset();
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setDialogOpen(false);
         setIsSuccess(false);
-        setSuccessMessage("")
-        navigate("/dashboard");
-      }, 3000000);
-    } else if (UpdateVendor.error) {
+        navigate('/dashboard');
+        setSuccessMessage("");
+        dispatch(resetVendorState());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+    if (UpdateVendor?.error) {
       dispatch(resetVendorState());
       setSuccessMessage("");
       const error = UpdateVendor.errormessage;
-      if (error && error.err && error.err.additionalErrors) {
+  
+      if (error?.err?.additionalErrors) {
         const additionalErrors = error.err.additionalErrors;
-        if (additionalErrors.phone && additionalErrors.phone.includes("phone must be unique")) {
+        if (additionalErrors.phone?.includes("phone must be unique")) {
           setMobileMessage("Phone number already exists.");
-        } else if (additionalErrors.contact && additionalErrors.contact.includes("contact must be unique")) {
+        } else if (additionalErrors.contact?.includes("contact must be unique")) {
           setMobileMessage("Mobile number already exists.");
-        } else if (additionalErrors.email && additionalErrors.email.includes("email must be unique")) {
+        } else if (additionalErrors.email?.includes("email must be unique")) {
           setErrorMessage("Email already exists.");
         } else {
-          setErrorMessage(UpdateVendor.message || "This email id already added in diffrent mobile number22.");
+          setErrorMessage( "This email ID is already associated with a different mobile number.");
         }
       } else {
-        setErrorMessage(UpdateVendor.message || "This email id already added in diffrent mobile number222.");
+        setErrorMessage("This email ID is already associated with a different mobile number.");
       }
-  
-      setTimeout(() => {
+
+      const timer = setTimeout(() => {
         setErrorMessage("");
         setMobileMessage("");
-        setSuccessMessage("")
       }, 3000);
-    }
-  }, [UpdateVendor]);
-  
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-    if (isSuccess) {
-      navigate('/dashboard');
+
+      return () => clearTimeout(timer);
     }
   };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <Container>
-    <React.Fragment>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',paddingLeft:"0px",paddingRight:"100px" }}>
-        <Typography variant="h5" gutterBottom sx={styles.title}>
-          Update Vendor
-        </Typography>
-        <IconButton>
-          <ArrowBackIcon 
-          onClick={() => navigate(-1)}
+      <React.Fragment>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingLeft: "0px", paddingRight: "100px" }}>
+          <Typography variant="h5" gutterBottom sx={styles.title}>
+            Update Vendor
+          </Typography>
+          <IconButton>
+            <ArrowBackIcon 
+              onClick={() => navigate(- 1)}
               back
-          />
-        </IconButton>
-      </Box>
-    </React.Fragment>
+            />
+          </IconButton>
+        </Box>
+      </React.Fragment>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
           <Box>
@@ -165,7 +131,6 @@ const UpdateVendor = () => {
               id="first_name"
               size="large"
               fullWidth
-         
               {...register("first_name", { required: "First Name is required" })}
               error={!!errors.first_name}
               helperText={errors.first_name ? errors.first_name.message : ""}
@@ -189,14 +154,13 @@ const UpdateVendor = () => {
               Address 
             </Typography>
             <StyledTextField
-        
               id="address"
               rows={4}
               size="large"
               fullWidth
               multiline
               {...register("address", { required: "Address is required" })}
-              error={!!errors.address }
+              error={!!errors.address}
               helperText={errors.address ? errors.address.message : ""}
             />
           </Box>
@@ -205,7 +169,6 @@ const UpdateVendor = () => {
               Email Address
             </Typography>
             <StyledTextField
-          
               id="email"
               size="large"
               fullWidth
@@ -219,11 +182,11 @@ const UpdateVendor = () => {
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ""}
             />
-             {errorMessage && (
-                <Typography color="error" style={{ marginTop: "1rem" }}>
-                  {errorMessage}
-                </Typography>
-              )}
+            {errorMessage && (
+              <Typography color="error" style={{ marginTop: "1rem" }}>
+                {errorMessage}
+              </Typography>
+            )}
           </Box>
           <Box>
             <Typography variant="h6" fontSize={16} sx={styles.textFieldContainer}>
@@ -249,14 +212,14 @@ const UpdateVendor = () => {
                   message: "Phone number should be 10 digits long",
                 },
               })}
-              error={!!errors.phoneNumber}
-              helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
+              error={!!errors.phone}
+              helperText={errors.phone ? errors.phone.message : ""}
             />
-             {mobileMessage && (
-                <Typography color="error" style={{ marginTop: "1rem" }}>
-                  {mobileMessage}
-                </Typography>
-              )}
+            {mobileMessage && (
+              <Typography color="error" style={{ marginTop: "1rem" }}>
+                {mobileMessage}
+              </Typography>
+            )}
           </Box>
           <Box sx={styles.submitGap}>
             <Grid item xs={3}>
@@ -272,11 +235,11 @@ const UpdateVendor = () => {
       </Grid>
       {/* Dialog */}
       <CommonDialog
-       open={dialogOpen}
-       isSuccess={isSuccess}
-       onClose={handleDialogClose}
-       messageSuccess={successMessage} 
-       messageError={errorMessage}  
+        open={dialogOpen}
+        isSuccess={isSuccess}
+        onClose={handleDialogClose}
+        messageSuccess={successMessage} 
+        messageError={errorMessage}  
       />
     </Container>
   );

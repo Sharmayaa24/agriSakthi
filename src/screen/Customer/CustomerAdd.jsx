@@ -13,16 +13,11 @@ import {
 } from "../../Styles/ComponentStyles/formStyles";
 import CommonDialog from "../common/Dialogbox";
 import "../../Styles/style.css"
+import {useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addCustomerProgress } from "../../redux/Customer/customerAction";
 
 const AddCustomer = () => {
-  const dispatch = useDispatch();
-  const addCustomerResponse = useSelector((state)=>state.customer.addCustomerState);
-  const {inProgress,success,error} = addCustomerResponse;
-  useEffect(()=>{
-    
-  },[addCustomerResponse])
   const {
     register,
     handleSubmit,
@@ -31,20 +26,64 @@ const AddCustomer = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(""); 
+  const [mobileMessage, setMobileMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const addCustomerResponse = useSelector((state)=>state.customer.addCustomerState);
+  console.log(addCustomerResponse)
     const onSubmit = (data) => {
-      if (data) {
-        dispatch(addCustomerProgress(data));
+      dispatch(addCustomerProgress(data));
+      if (addCustomerResponse?.success) {
+        setSuccessMessage("Customer Added successfully.");
         setIsSuccess(true);
         setDialogOpen(true);
-      } else {
-        setIsSuccess(false);
-        setDialogOpen(true);
+        const timer = setTimeout(() => {
+          setDialogOpen(false);
+          setIsSuccess(false);
+          navigate('/dashboard');
+          setSuccessMessage("");
+        }, 3000);
+            return () => clearTimeout(timer);
+      } 
+      if (addCustomerResponse?.error) {
+        setSuccessMessage("");
+        console.log(addCustomerResponse?.error);
+    
+        const error = addCustomerResponse.errormessage; 
+        console.log(error);
+      
+        if (error?.additionalErrors) {
+          const additionalErrors = error.additionalErrors; 
+          console.log(additionalErrors.email);
+      
+          if (additionalErrors.phone?.includes("phone must be unique")) {
+            setMobileMessage("Phone number already exists.");
+          } else if (additionalErrors.contact?.includes("contact must be unique")) {
+            setMobileMessage("Mobile number already exists.");
+          } else if (additionalErrors.email?.includes("email must be unique")) {
+            setErrorMessage("Email already exists.");
+          } else {
+            setErrorMessage("This email ID is already associated with a different mobile number.");
+          }
+        } else {
+          setErrorMessage("This email ID is already associated with a different mobile number.");
+        }
+      
+      
+  
+        const timer = setTimeout(() => {
+          setErrorMessage("");
+          setMobileMessage("");
+        }, 3000);
+
+        return () => clearTimeout(timer);
       }
     };
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
-
 
   return (
     <Container>
@@ -64,7 +103,6 @@ const AddCustomer = () => {
               First Name 
             </Typography>
             <StyledTextField
-              label="Name"
               id="first_name"
               size="large"
               fullWidth
@@ -83,7 +121,7 @@ const AddCustomer = () => {
               Last Name 
             </Typography>
             <StyledTextField
-              label="LastName"
+
               id="last_name"
               size="large"
               fullWidth
@@ -102,7 +140,6 @@ const AddCustomer = () => {
               Address 
             </Typography>
             <StyledTextField
-              label="Address"
               id="address"
               rows={4}
               size="large"
@@ -122,7 +159,6 @@ const AddCustomer = () => {
               Email Address
             </Typography>
             <StyledTextField
-              label="Email Address"
               id="email"
               size="large"
               fullWidth
@@ -137,6 +173,11 @@ const AddCustomer = () => {
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ""}
             />
+            {errorMessage && (
+                <Typography color="error" style={{ marginTop: "1rem" }}>
+                  {errorMessage}
+                </Typography>
+              )}
           </Box>
          <Box>
             <Typography
@@ -147,7 +188,6 @@ const AddCustomer = () => {
             Phone Number
             </Typography>
             <StyledTextField
-            label="Phone Number"
             id="phone"
             type="tel"
             size="large"
@@ -171,6 +211,11 @@ const AddCustomer = () => {
             error={!!errors.phoneNumber}
             helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
             />
+               {mobileMessage && (
+                <Typography color="error" style={{ marginTop: "1rem" }}>
+                  {mobileMessage}
+                </Typography>
+              )}
             </Box>
           <Box sx={ styles.submitGap }>
             <Grid item xs={3}>
@@ -186,11 +231,11 @@ const AddCustomer = () => {
       </Grid>
       {/* Dialog */}
       <CommonDialog
-        open={dialogOpen}
-        isSuccess={isSuccess}
-        onClose={handleDialogClose}
-        messageSuccess="Customer details Add successfully!"
-        messageError="Failed to update the customer details."
+      open={dialogOpen}
+      isSuccess={isSuccess}
+      onClose={handleDialogClose}
+      messageSuccess={successMessage} 
+      messageError={errorMessage}
       />
     </Container>
   );

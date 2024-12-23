@@ -23,16 +23,16 @@ import {
 } from "../../Styles/ComponentStyles/style";
 import { getColumnWidth } from "../../Styles/datagridMQ";
 import { APP_LINK } from "../../screen/common/sakthiMenu";
-import { viewAllCustomerProgress,deleteCustomerProgress } from "../../redux/Customer/customerAction";
+import {viewAllWalletProgress,deleteWalletProgress} from '../../redux/wallet/walletAction'
 import { CircleLoader } from 'react-spinners'; 
 
 const columns = (handleDeleteRow) => [
   { field: "customer_serial_no", headerName: "Vendor ID", width: getColumnWidth("CustomerId") },
   { field: "first_name", headerName: "First Name", width: getColumnWidth("FirstName") },
-  { field: "last_name", headerName: "Last Name", width: getColumnWidth("LastName") },
+  { field: "bonus_amount", headerName: "Bonus Amount", width: getColumnWidth("LastName") },
   { field: "email", headerName: "Email", width: getColumnWidth("Email") },
-  { field: "phone", headerName: "Phone Number", width: getColumnWidth("PhoneNumber") },
-  { field: "address", headerName: "Address", width: getColumnWidth("Address") },
+  { field: "total_amount", headerName: "Total Amount", width: getColumnWidth("PhoneNumber") },
+  { field: "available_amount", headerName: "Available Amount", width: getColumnWidth("Address") },
   {
     field: "actions",
     headerName: "Actions",
@@ -80,7 +80,7 @@ const ActionMenu = ({ user, onDelete }) => {
   );
 };
 
-const ViewVendor = () => {
+const ViewWallet = () => {
   const [selection, setSelection] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
@@ -97,7 +97,7 @@ const ViewVendor = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); 
-      await dispatch(viewAllCustomerProgress(currentPage));
+      await dispatch(viewAllWalletProgress(currentPage));
       setTimeout(() => {
         setLoading(false); 
       }, 1000);
@@ -121,11 +121,11 @@ const ViewVendor = () => {
   const confirmDelete = () => {
     if (vendorToDelete) {
       console.log(vendorToDelete, "data");
-      dispatch(deleteCustomerProgress(vendorToDelete));
+      dispatch(deleteWalletProgress(vendorToDelete));
       setRows((prevRows) => prevRows.filter((row) => row.id !== vendorToDelete));
       setVendorToDelete(null);
       setOpenDialog(false);
-      dispatch(viewAllCustomerProgress(currentPage));
+      dispatch(viewAllWalletProgress(currentPage));
     }
   };
 
@@ -306,4 +306,4 @@ const ViewVendor = () => {
   );
 };
 
-export default ViewVendor;
+export default ViewWallet;

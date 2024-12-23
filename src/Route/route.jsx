@@ -22,6 +22,8 @@ import Dashboard from "../screen/DashBoard"
 import Dummy from "../screen/dummy";
 import ListPayments from "../screen/sales/listPayment";
 import DetailsTable from "../screen/Vendor/vendorParticularDetails";
+import CustomerTable from "../screen/Customer/CustomerParticularDetails";
+import ViewWallet from "../screen/wallet/viewAllWallet";
 
 import "../Styles/style.css"
 
@@ -63,7 +65,8 @@ const RouteComponent = () => {
             <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
             <Route path={APP_LINK.TRANSACTIONS} element={<ListPayments />} />
             <Route path={APP_LINK.PARTICULARVENDOR} element={<DetailsTable />} />
-            
+            <Route path={APP_LINK.PARTICULARCUSTOMER} element={<CustomerTable />} />
+            <Route path={APP_LINK.WALLETLIST} element={<ViewWallet />} />
           </Routes>
         </main>
       </div>

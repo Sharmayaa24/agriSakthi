@@ -28,10 +28,6 @@ const initialState = {
 
 const VendorReducer = (state = initialState, action) => {
   const {type, payload} = action;
-
-  console.log (`type`);
-  console.log (type, payload);
-
   switch (type) {
     case VENDOR_ADD_SUCCESS:
       return {
@@ -46,34 +42,76 @@ const VendorReducer = (state = initialState, action) => {
     case VENDOR_ADD_FAILURE:
       return {
         ...state,
-        addVendor: {...defaultStatus, error: true, errormessage: payload},
+        addVendor: {
+          ...defaultStatus,
+          success: false,
+           error: true, 
+           errormessage: payload
+          },
       };
     case VENDOR_ADD_PROGRESS:
-      return {...state, addVendor: {...defaultStatus, inProgress: true}};
+      return {
+        ...state,
+         addVendor: {
+          ...defaultStatus,
+           inProgress: true
+          }
+        };
     case VENDOR_UPDATE_SUCCESS:
       return {
         ...state,
-        updateVendor: {...defaultStatus, success: true, message: payload},
+        updateVendor: {
+          ...defaultStatus,
+          success: true,
+          errormessage: '',
+          message: payload
+        },
       };
     case VENDOR_UPDATE_FAILURE:
       return {
         ...state,
-        updateVendor: {...defaultStatus, error: true, errormessage: payload},
+        updateVendor: {
+          ...defaultStatus,
+          inProgress: false,
+          success: false,
+           error: true, 
+           errormessage: payload
+          },
       };
     case VENDOR_UPDATE_PROGRESS:
-      return {...state, updateVendor: {...defaultStatus, inProgress: true}};
+      return {
+        ...state,
+         updateVendor: {
+          ...defaultStatus,
+           inProgress: true
+          }
+        };
     case VENDOR_DELETE_SUCCESS:
       return {
         ...state,
-        deleteVendor: {...defaultStatus, success: true, message: payload},
+        deleteVendor: {
+          ...defaultStatus,
+          success: true, 
+          message: payload
+        },
       };
     case VENDOR_DELETE_FAILURE:
       return {
         ...state,
-        deleteVendor: {...defaultStatus, error: true, errormessage: payload},
+        deleteVendor: {
+          ...defaultStatus,
+           error: true, 
+           errormessage: payload
+          },
       };
     case VENDOR_DELETE_PROGRESS:
-      return {...state, deleteVendor: {...defaultStatus, inProgress: true}};
+      return {
+        ...state,
+         deleteVendor: {
+          ...defaultStatus,
+           inProgress: true
+          }
+        };
     case VENDOR_VIEW_SUCCESS:
       return {
         ...state,
@@ -86,10 +124,20 @@ const VendorReducer = (state = initialState, action) => {
     case VENDOR_VIEW_FAILURE:
       return {
         ...state,
-        viewVendor: {...defaultStatus, error: true, message: payload},
+        viewVendor: {
+          ...defaultStatus, 
+          error: true, 
+          message: payload
+        },
       };
     case VENDOR_VIEW_PROGRESS:
-      return {...state, viewVendor: {...defaultStatus, inProgress: true}};
+      return {
+        ...state,
+         viewVendor: {
+          ...defaultStatus,
+           inProgress: true
+          }
+        };
     case VENDOR_PARTICULAR_VIEW_SUCCESS:
       return {
         ...state,
@@ -111,7 +159,10 @@ const VendorReducer = (state = initialState, action) => {
     case VENDOR_PARTICULAR_VIEW_PROGRESS:
       return {
         ...state,
-        particularViewVendor: {...defaultStatus, inProgress: true},
+        particularViewVendor: {
+          ...defaultStatus,
+           inProgress: true
+          },
       };
     case VENDOR_RESET_STATE:
       return {

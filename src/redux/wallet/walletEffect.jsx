@@ -1,5 +1,5 @@
 import axios from "axios";
-  import { handleApiError } from "../Vendor/vendoreffect";
+import { handleApiError } from "../Vendor/vendoreffect";
 
 const authInstance = axios.create({
   baseURL: "http://154.61.173.102:3006",
@@ -8,11 +8,11 @@ const authInstance = axios.create({
 
 const accessToken = localStorage.getItem("accessToken");
 
-export const customerAddEffect = (formData) => {
+export const walletAddEffect = (formData) => {
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: "/customers/insertcustomer",
+        url: "/wallets/insertwallet",
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -33,19 +33,19 @@ export const customerAddEffect = (formData) => {
       });
   });
 };
-export const customerUpdateEffect = (id,formData) => {
-  console.log(id,formData,"effect")
+
+export const walletUpdateEffect = (id, formData) => {
+  console.log(id, formData, "effect")
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: `/customers/updatecustomer/${id}`,
+        url: `/wallets/updatewallet/${id}`,
         method: "PUT",
         data: formData,
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${accessToken}`,
         },
-       
       })
       .then((response) => {
         console.log(response, "hello1");
@@ -60,11 +60,11 @@ export const customerUpdateEffect = (id,formData) => {
   });
 };
 
-export const customerDeleteEffect = (id) => {
+export const walletDeleteEffect = (id) => {
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: `/customers/deletecustomer/${id}`,
+        url: `/wallets/deletewallet/${id}`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -81,11 +81,11 @@ export const customerDeleteEffect = (id) => {
   });
 };
 
-export const customerGetEffect = id => {
+export const walletGetEffect = id => {
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: `/customers/getcustomer?customer_id=${id}`,
+        url: `/wallets/getwallet?wallet_id=${id}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -102,11 +102,11 @@ export const customerGetEffect = id => {
   });
 };
 
-export const customerViewAllEffect = ( page ) => {
+export const walletViewAllEffect = (page) => {
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: `/customers/list?pagination_required=true&pagesize=10&pageNo=${page}`,
+        url: `/wallets/list?pagination_required=true&pageNo=1&pagesize=${page}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,

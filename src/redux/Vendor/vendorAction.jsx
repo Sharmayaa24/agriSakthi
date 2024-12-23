@@ -39,7 +39,7 @@ export const addVendorFailure = (payload) => {
 };
 
 export const updateVendor = (payload) => {
-    console.log(payload,"success")
+
     return {
         type: VENDOR_UPDATE_SUCCESS,
         payload: payload
@@ -47,7 +47,7 @@ export const updateVendor = (payload) => {
 };
 
 export const updateVendorProgress = (payload) => {
-    console.log(payload,"process")
+
     return {
         type: VENDOR_UPDATE_PROGRESS,
         payload: payload
@@ -55,7 +55,6 @@ export const updateVendorProgress = (payload) => {
 };
 
 export const updateVendorFailure = (payload) => {
-    console.log(payload,"failure")
     return {
         type: VENDOR_UPDATE_FAILURE,
         payload: payload

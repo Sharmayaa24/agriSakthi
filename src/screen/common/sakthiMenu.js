@@ -12,7 +12,7 @@ import ForgotPassword from "@mui/icons-material/Password";
 export const APP_LINK = {
   DASHBOARD: "/dashboard",
   ADDCUSTOMER: "/customer/add",
-  EDITCUSTOMER: "/customer/edit",
+  EDITCUSTOMER: "/customer/edit/:id",
   VIEWCUSTOMER: "/customer/view",
   CUSTOMERS: "/customer/list",
   ADDVENDOR: "/vendor/add",
@@ -31,6 +31,10 @@ export const APP_LINK = {
   ADDWALLET: "/add-wallet",
   PAYPRIZE: "/pay-prize",
   PARTICULARVENDOR: "/vendor/view/:id",
+  PARTICULARCUSTOMER: "/customer/view/:id",
+  WALLETLIST: "/customer/wallet/list",
+  PARTICULARLIST: "/customer/wallet/list/:ID",
+  UPDATELIST: "/customer/wallet/update/:",
 };
 
 const menuItems = [
@@ -47,7 +51,7 @@ const menuItems = [
     label: "Customers",
     submenu: [
       { name: "Customers", url: APP_LINK.CUSTOMERS },
-      { name: "Add Wallet", url: APP_LINK.ADDWALLET },
+      { name: "wallet", url: APP_LINK.WALLETLIST },
     ],
   },
   {

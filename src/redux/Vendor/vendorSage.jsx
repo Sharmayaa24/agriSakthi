@@ -31,14 +31,12 @@ function* VendorAdd({ payload }) {
   
   try {
       const { data } = yield call(vendorAddEffect, payload);
-      console.log(data);
       yield put(addVendorSuccess({
         data: data,
         message: data['message'],
         success: true,
       }))
   } catch (err) {
-    console.log(err,"error")
       yield put(addVendorFailure(err)); 
   }
 }
@@ -47,7 +45,6 @@ function* VendorUpdate({payload}) {
 
     try {
       let {data} = yield call(vendorUpdateEffect, payload.id,payload.data);
-      console.log(data);
       yield put(
         updateVendor({
           data: data,
@@ -56,7 +53,6 @@ function* VendorUpdate({payload}) {
         }),
       );
     } catch (err) {
-      console.log(err,"error")
       yield put(
         updateVendorFailure({
           err
@@ -66,11 +62,9 @@ function* VendorUpdate({payload}) {
 }
 
 function* VendorDelete({payload}) {
-  console.log(payload)
     try {
      let {data} = yield call(vendorDeleteEffect, payload);
       let message = data.message;
-      console.log(message);
       yield put(
         deleteVendor({
           data: data,
@@ -98,7 +92,6 @@ function* VendorView({ payload }) {
           }),
       );
   } catch (err) {
-      console.error(err); // Log the error
       yield put(
           viewVendorFailure({
               error: true,

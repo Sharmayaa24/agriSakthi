@@ -13,24 +13,90 @@ import {
 } from "../../Styles/ComponentStyles/formStyles";
 import CommonDialog from "../common/Dialogbox";
 import "../../Styles/style.css"
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCustomerProgress, viewCustomerProgress } from '../../redux/Customer/customerAction';
+
+
+ 
 
 const UpdateCustomer = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+    const {
+      register,
+      handleSubmit,
+      setValue,
+      reset,
+      formState: { errors },
+    } = useForm();
+     const { id } = useParams();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(true);
-    const onSubmit = (data) => {
-      if (data) {
-        setIsSuccess(true);
-        setDialogOpen(true);
-      } else {
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(""); 
+  const [mobileMessage, setMobileMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const getCustomerData = useSelector((state) => state.customer?.ViewCustomer.data);
+  const customerList = getCustomerData?.data || [];
+    React.useEffect(() => {
+      dispatch(viewCustomerProgress(id));
+    }, [dispatch, id]);
+    console.log(id,"id")
+ 
+    React.useEffect(() => {
+    if (customerList) {
+      setValue("first_name", customerList.first_name);
+      setValue("last_name", customerList.last_name);
+      setValue("address", customerList.address);
+      setValue("email", customerList.email);
+      setValue("phone", customerList.phone);
+    }
+  }, [customerList, setValue]);
+
+const UpdateCustomer=useSelector((state)=>state.customer?.updateCustomer);
+console.log(UpdateCustomer,"alls")
+const onSubmit = (data) => {
+  console.log(data);
+      const formData = { id: id, data: data };
+      console.log(formData);
+      dispatch(updateCustomerProgress(formData));
+  if (UpdateCustomer?.success) {
+    console.log(UpdateCustomer.success)
+      setSuccessMessage("Customer updated successfully.");
+      setIsSuccess(true);
+      setDialogOpen(true);
+      const timer = setTimeout(() => {
+        setDialogOpen(false);
         setIsSuccess(false);
-        setDialogOpen(true);
+        navigate('/dashboard');
+        setSuccessMessage("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+    if (UpdateCustomer?.error) {
+      setSuccessMessage("");
+      const error = UpdateCustomer.errormessage; 
+      if (error?.additionalErrors) { 
+        const additionalErrors = error.additionalErrors; 
+        if (additionalErrors.phone?.includes("phone must be unique")) {
+          setMobileMessage("Phone number already exists.");
+        } else if (additionalErrors.contact?.includes("contact must be unique")) {
+          setMobileMessage("Mobile number already exists.");
+        } else if (additionalErrors.email?.includes("email must be unique")) {
+          setErrorMessage("Email already exists.");
+        } else {
+          setErrorMessage(additionalErrors.message||"This email ID is already associated with a different mobile number.");
+        }
+      } else {
+        setErrorMessage("This email ID is already associated with a different mobile number.");
       }
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+        setMobileMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
     };
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -54,12 +120,11 @@ const UpdateCustomer = () => {
               First Name 
             </Typography>
             <StyledTextField
-              label="Name"
-              id="name"
+              id="first_name"
               size="large"
               fullWidth
               multiline
-              {...register("name", { required: "Name is required" })}
+              {...register("first_name", { required: "Name is required" })}
               error={!!errors.name}
               helperText={errors.name ? errors.name.message : ""}
             />
@@ -73,12 +138,11 @@ const UpdateCustomer = () => {
               Last Name 
             </Typography>
             <StyledTextField
-              label="LastName"
-              id="LastName"
+              id="last_name"
               size="large"
               fullWidth
               multiline
-              {...register("name", { required: "LastName is required" })}
+              {...register("last_name", { required: "LastName is required" })}
               error={!!errors.LastName}
               helperText={errors.LastName ? errors.name.message : ""}
             />
@@ -92,7 +156,6 @@ const UpdateCustomer = () => {
               Address 
             </Typography>
             <StyledTextField
-              label="Address"
               id="address"
               rows={4}
               size="large"
@@ -112,7 +175,6 @@ const UpdateCustomer = () => {
               Email Address
             </Typography>
             <StyledTextField
-              label="Email Address"
               id="email"
               size="large"
               fullWidth
@@ -127,6 +189,11 @@ const UpdateCustomer = () => {
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ""}
             />
+             {errorMessage && (
+              <Typography color="error" style={{ marginTop: "1rem" }}>
+                {errorMessage}
+              </Typography>
+            )}
           </Box>
           <Box>
             <Typography
@@ -137,13 +204,12 @@ const UpdateCustomer = () => {
             Phone Number
             </Typography>
             <StyledTextField
-            label="Phone Number"
-            id="phoneNumber"
+            id="phone"
             type="tel"
             size="large"
             fullWidth
             multiline
-            {...register("phoneNumber", {
+            {...register("phone", {
                 required: "Phone Number is required",
                 pattern: {
                 value: /^[6789]\d{9}$/,
@@ -159,8 +225,13 @@ const UpdateCustomer = () => {
                 },
             })}
             error={!!errors.phoneNumber}
-            helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
+            helperText={errors.phone ? errors.phone.message : ""}
             />
+             {mobileMessage && (
+                <Typography color="error" style={{ marginTop: "1rem" }}>
+                  {mobileMessage}
+                </Typography>
+              )}
             </Box>
           <Box sx={ styles.submitGap }>
             <Grid item xs={3}>
@@ -179,8 +250,8 @@ const UpdateCustomer = () => {
         open={dialogOpen}
         isSuccess={isSuccess}
         onClose={handleDialogClose}
-        messageSuccess="Customer details update successfully!"
-        messageError="Failed to update the customer details."
+        messageSuccess={successMessage} 
+        messageError={errorMessage}  
       />
     </Container>
   );

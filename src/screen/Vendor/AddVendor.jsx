@@ -28,7 +28,7 @@ const AddVendor = () => {
   } = useForm();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState(false); 
   const[mobileMessage,setMobileMessage]=useState("")
   const [errorMessage, setErrorMessage] = useState(""); 
   const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const AddVendor = () => {
     dispatch(addVendorProgress(data)); 
   };
 
-  useEffect(() => {
+  // useEffect(() => {
     if (vendorData.success) {
       dispatch(resetVendorState());
       setErrorMessage("");
@@ -75,7 +75,7 @@ const AddVendor = () => {
         }, 3000);
       }
     }
-  }, []);
+  // }, []);
 
   const handleDialogClose = () => {
     setDialogOpen(false);

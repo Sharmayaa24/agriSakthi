@@ -6,7 +6,6 @@ const authInstance = axios.create({
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
 });
 const accessToken = localStorage.getItem('accessToken');
-console.log(accessToken);
 const vendorAddEffect = (formData) => {
   return new Promise((resolve, reject) => {
     authInstance.request({
@@ -19,12 +18,9 @@ const vendorAddEffect = (formData) => {
       data: formData,
     })
     .then(response => {
-      console.log(response,"hello1")
       resolve(response);
     })
     .catch(error => {
-        console.log(error.response.data.errorFields.contact,"hello")
-        console.log(error.response.data,"hello")
       reject(error.response.data.errorFields.email || error.response.data.errorFields.contact || error.response.data)
     });
   });
@@ -46,17 +42,44 @@ const vendorUpdateEffect = (id, formData) => {
       resolve(response);
     })
     .catch(error => {
-      console.log(error,"hello")
-      console.log(error.response.data.message ,"hello")
     reject(handleApiError(error))
   });
   });
 };
 
+export const handleApiError = (error) => {
+  console.log("Full Error Object:", error); 
+
+  if (error.response) {
+    const errorData = error.response.data || {};
+    const errorFields = errorData.errorFields || {};
+    return {
+      statusCode: error.response.status,
+      email: errorFields.email || null,
+      phone: errorFields.phone || null,
+      contact: errorFields.contact || null,
+      additionalErrors: errorFields,
+      message: errorData.message || "Unknown error occurred.",
+    };
+  } else if (error.request) {
+    console.log("Request without response:", error.request); 
+
+    return {
+      statusCode: null,
+      message: "No response received from the server. Please try again later.",
+    };
+  } else {
+    console.log("Unexpected error:", error);
+
+    return {
+      statusCode: null,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};
 
 const vendorDeleteEffect = id => {
   const token = localStorage.getItem("accessToken");
-  console.log(id)
   return new Promise((resolve, reject) => {
     authInstance.request({
       url: `/vendors/deletevendor/${id}`,
@@ -67,12 +90,9 @@ const vendorDeleteEffect = id => {
       },
     })
     .then(response => {
-      console.log(`response`)
-      console.log(response)
       resolve(response);
     })
     .catch(error => {
-      console.log(error)
       reject(error);
     });
   });
@@ -127,41 +147,6 @@ export {
     vendorParticularViewEffect,
   };
   
-  export const handleApiError = (error) => {
-    console.log("Full Error Object:", error); 
-  
-    if (error.response) {
-      const errorData = error.response.data || {};
-      const errorFields = errorData.errorFields || {};
-  
-      console.log("Error Response Data:", errorData); 
-       
-      console.log("Error Response Data errorFields :", errorFields); 
-  
-  
-      return {
-        statusCode: error.response.status,
-        email: errorFields.email || null,
-        contact: errorFields.contact || null,
-        additionalErrors: errorFields,
-        message: errorData.message || "Unknown error occurred.",
-      };
-    } else if (error.request) {
-      console.log("Request without response:", error.request); // Log the request object
-  
-      return {
-        statusCode: null,
-        message: "No response received from the server. Please try again later.",
-      };
-    } else {
-      console.log("Unexpected error:", error);
-  
-      return {
-        statusCode: null,
-        message: error.message || "An unexpected error occurred.",
-      };
-    }
-  };
   
   
 
