@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { addWalletFailure, addWalletSuccess, deleteWalletFailure, deleteWalletSuccess, updateWalletFailure, updateWalletSuccess, viewAllWalletFailure, viewAllWalletSuccess, viewWalletFailure, viewWalletSuccess } from "./walletAction";
 import { WALLET_ADD_PROGRESS, WALLET_DELETE_PROGRESS, WALLET_PARTICULAR_VIEW_PROGRESS, WALLET_UPDATE_PROGRESS, WALLET_VIEW_PROGRESS } from "./walletType";
-import { walletAddEffect, walletDeleteEffect, walletGetEffect, walletUpdateEffect, walletViewAllEffect } from "./WalletEffects";
+import { walletAddEffect, walletDeleteEffect, walletGetEffect, walletUpdateEffect, walletViewAllEffect } from "./walletEffect";
 
 function* walletAdd({ payload }){
     console.log(payload)
@@ -19,9 +19,9 @@ function* walletAdd({ payload }){
 }
 
 function* walletUpdate({payload}) {
-    console.log(payload)
+    console.log("payload", payload)
     try{
-        const {data} = yield call(walletUpdateEffect,payload.id,payload.data);
+        const {data} = yield call(walletUpdateEffect,payload);
         yield put(updateWalletSuccess({
             data:data,
             message:data.message,
@@ -33,8 +33,10 @@ function* walletUpdate({payload}) {
 }
 
 function* walletViewAll({payload}) {
+    console.log(payload)
     try{
         const {data} = yield call(walletViewAllEffect,payload);
+        console.log(data)
         yield put(viewAllWalletSuccess({
             data,
             success:true,

@@ -53,7 +53,6 @@ const UpdateVendor = () => {
   }, [vendorList, setValue]);
   
   const UpdateVendor = useSelector((state) => state.vendor?.updateVendor);
-
   const onSubmit = async (data) => {
     console.log(data);
     dispatch(resetVendorState());
@@ -77,7 +76,6 @@ const UpdateVendor = () => {
       dispatch(resetVendorState());
       setSuccessMessage("");
       const error = UpdateVendor.errormessage;
-  
       if (error?.err?.additionalErrors) {
         const additionalErrors = error.err.additionalErrors;
         if (additionalErrors.phone?.includes("phone must be unique")) {

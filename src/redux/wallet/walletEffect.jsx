@@ -9,10 +9,11 @@ const authInstance = axios.create({
 const accessToken = localStorage.getItem("accessToken");
 
 export const walletAddEffect = (formData) => {
+  console.log(formData)
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: "/wallets/insertwallet",
+        url: "/wallets/addwallet",
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -25,7 +26,6 @@ export const walletAddEffect = (formData) => {
         resolve(response);
       })
       .catch((error) => {
-        console.log(error.response.data.errorFields.contact, "hello");
         console.log(error);
         const errorFields = handleApiError(error);
         console.log(errorFields)
@@ -34,12 +34,12 @@ export const walletAddEffect = (formData) => {
   });
 };
 
-export const walletUpdateEffect = (id, formData) => {
-  console.log(id, formData, "effect")
+export const walletUpdateEffect = (formData) => {
+  console.log(formData, "effect")
   return new Promise((resolve, reject) => {
     authInstance
       .request({
-        url: `/wallets/updatewallet/${id}`,
+        url: `wallets/updatewallet`,
         method: "PUT",
         data: formData,
         headers: {
@@ -103,6 +103,7 @@ export const walletGetEffect = id => {
 };
 
 export const walletViewAllEffect = (page) => {
+  console.log(page)
   return new Promise((resolve, reject) => {
     authInstance
       .request({
@@ -113,9 +114,11 @@ export const walletViewAllEffect = (page) => {
         },
       })
       .then((response) => {
+        console.log(response,"view")
         resolve(response);
       })
       .catch((error) => {
+        console.log(error,"view error")
         reject(error);
       });
   });

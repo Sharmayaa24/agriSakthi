@@ -6,8 +6,13 @@ import { Box, Grid, Icon, Typography, styled, Button } from '@mui/material'
 import addWallet from '../../image/add-wallet.png'
 import StareBg from '../../image/starbg.png'
 import ShareIcon from '@mui/icons-material/Share';
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined';
 import { useForm, Controller } from 'react-hook-form';
+import {viewWalletProgress}from "../../redux/wallet/walletAction"
+
+
 
 const PaymentBox = styled(Box)(({ theme }) => ({
     backgroundImage: `url(${StareBg})`,
@@ -27,6 +32,17 @@ const AddWallet = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const { id } = useParams();
+      const dispatch = useDispatch();
+      const navigate = useNavigate();
+    console.log(id);
+  const getWalletData = useSelector((state) => state.wallet?.ViewWallet.data);
+  const walletList = getWalletData?.data || [];
+  console.log(walletList.available_amount,walletList.bonus_amount,walletList.total_amount,"list")
+    
+      React.useEffect(() => {
+        dispatch(viewWalletProgress(id));
+      }, [dispatch, id]);
 
     const onSubmit = (data) => {
         console.log('Submitted data:', data);
@@ -37,7 +53,7 @@ const AddWallet = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={7}>
                     <Typography variant="h5" color="primary" sx={{ fontWeight: "bold", textAlign: "start", paddingLeft: "20px", paddingTop: "20px" }}>
-                        Customer Id:#143
+                        Customer Id:id
                     </Typography>
                     <Box sx={{
                         display: "flex",
@@ -52,7 +68,7 @@ const AddWallet = () => {
                                 Wallet Details
                             </Typography>
                             <Typography variant="h5" color="green" sx={{ fontWeight: "bold", marginRight: "10px" }}>
-                                ₹1500(Rupees)
+                                ₹{walletList.available_amount}(Rupees)
                             </Typography>
                             <Typography variant="P" component="p" color="black" sx={{ fontWeight: "bold", textAlign: "start", marginRight: "10px" }}>
                                 Wallet Amount
@@ -134,10 +150,10 @@ const AddWallet = () => {
                                         </Icon>
                                     </Box>
                                     <Typography variant="h6" color="white" sx={{ fontWeight: "bold", marginBottom: "10px" }}>
-                                        ₹1500
+                                    {walletList.available_amount}
                                     </Typography>
                                     <Typography variant="small" component="p" color="#ccc" sx={{ fontWeight: "bold", textAlign: "start" }}>
-                                        Current Amount
+                                        available Amount
                                     </Typography>
                                 </Box>
                                 <Box>
@@ -149,10 +165,11 @@ const AddWallet = () => {
                                         </Icon>
                                     </Box>
                                     <Typography variant="h6" color="white" sx={{ fontWeight: "bold", marginBottom: "10px" }}>
-                                        ₹1500
+                                 
+                                       {walletList.bonus_amount}
                                     </Typography>
                                     <Typography variant="P" component="p" color="#ccc" sx={{ fontWeight: "bold", textAlign: "start" }}>
-                                        Balance Amount
+                                        Bonus Amount
                                     </Typography>
                                 </Box>
                             </Box>

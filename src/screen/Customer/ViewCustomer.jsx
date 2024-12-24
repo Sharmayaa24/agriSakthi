@@ -10,29 +10,85 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FilterIcon from "@mui/icons-material/Tune";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import {
   StyledContainer,
   StyledDataGrid,
   paginationStyles,
 } from "../../Styles/ComponentStyles/style";
+import {
+  StyledButton,
+  StyledTextField,
+  styles,
+} from "../../Styles/ComponentStyles/formStyles";
 import { getColumnWidth } from "../../Styles/datagridMQ";
 import { APP_LINK } from "../../screen/common/sakthiMenu";
-import { viewAllCustomerProgress,deleteCustomerProgress } from "../../redux/Customer/customerAction";
-import { CircleLoader } from 'react-spinners'; 
+import {
+  viewAllCustomerProgress,
+  deleteCustomerProgress,
+} from "../../redux/Customer/customerAction";
+import { CircleLoader } from "react-spinners";
+import { useForm } from "react-hook-form";
+import {
+  addWalletProgress,
+  updateWalletProgress,
+} from "../../redux/wallet/walletAction";
 
-const columns = (handleDeleteRow) => [
-  { field: "customer_serial_no", headerName: "Vendor ID", width: getColumnWidth("CustomerId") },
-  { field: "first_name", headerName: "First Name", width: getColumnWidth("FirstName") },
-  { field: "last_name", headerName: "Last Name", width: getColumnWidth("LastName") },
+const columns = (handleDeleteRow, handleAddWallet, handleEditWallet) => [
+  { field: "id", headerName: "Vendor ID", width: getColumnWidth("CustomerId") },
+  {
+    field: "first_name",
+    headerName: "First Name",
+    width: getColumnWidth("FirstName"),
+  },
+  {
+    field: "last_name",
+    headerName: "Last Name",
+    width: getColumnWidth("LastName"),
+  },
   { field: "email", headerName: "Email", width: getColumnWidth("Email") },
-  { field: "phone", headerName: "Phone Number", width: getColumnWidth("PhoneNumber") },
+  {
+    field: "phone",
+    headerName: "Phone Number",
+    width: getColumnWidth("PhoneNumber"),
+  },
   { field: "address", headerName: "Address", width: getColumnWidth("Address") },
+  {
+    field: "totalAmount",
+    headerName: "Total Amount",
+    width: getColumnWidth("Email"),
+  },
+  {
+    field: "availableAmount",
+    headerName: "Available Amount",
+    width: getColumnWidth("Email"),
+  },
+  {
+    field: "usedAmount",
+    headerName: "Used Amount",
+    width: getColumnWidth("Email"),
+  },
+  {
+    field: "wallet",
+    headerName: "Wallets",
+    width: getColumnWidth("Email"),
+    renderCell: (params) => (
+      <div>
+        <StyledButton onClick={() => handleAddWallet(params.row)}>
+          Add
+        </StyledButton>
+        <StyledButton onClick={() => handleEditWallet(params.row)}>
+          Edit
+        </StyledButton>
+      </div>
+    ),
+  },
   {
     field: "actions",
     headerName: "Actions",
@@ -58,12 +114,11 @@ const ActionMenu = ({ user, onDelete }) => {
     handleClose();
   };
   const handleEdit = () => {
-    navigate(`/customer/edit/${user.id}`);
+    navigate(`/customer/edit/${user.customerId}`);
     handleClose();
   };
   const handleView = () => {
-    navigate(`/customer/view/${user.id}`, {
-    });
+    navigate(`/customer/view/${user.customerId}`, {});
     handleClose();
   };
   return (
@@ -90,16 +145,41 @@ const ViewVendor = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [vendorToDelete, setVendorToDelete] = useState(null);
-  const customerData = useSelector((state) => state.customer.viewAllCustomer.data);
+  const [openAddWalletDialog, setOpenAddWalletDialog] = useState(false);
+  const [openEditWalletDialog, setOpenEditWalletDialog] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [walletData, setWalletData] = useState({});
+  const customerData = useSelector(
+    (state) => state.customer.viewAllCustomer.data
+  );
+  console.log(customerData);
   const customerList = customerData?.data || [];
+  console.log(customerList);
   const totalRecords = customerData?.totalRecords || 0;
   const vendorPageSize = customerData?.pagesize || 10;
+
+  const preprocessData = (data) =>
+    data.map((item) => ({
+      id: item.customer_serial_no,
+      customerId: item.id,
+      first_name: item.first_name || "",
+      last_name: item.last_name || "",
+      email: item.email || "",
+      phone: item.phone || "",
+      address: item.address || "",
+      totalAmount: item.Wallet?.total_amount || 0,
+      availableAmount: item.Wallet?.available_amount || 0,
+      usedAmount: item.Wallet?.used_amount || 0,
+    }));
+
+  console.log(preprocessData(customerList));
+
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); 
+      setLoading(true);
       await dispatch(viewAllCustomerProgress(currentPage));
       setTimeout(() => {
-        setLoading(false); 
+        setLoading(false);
       }, 1000);
     };
     fetchData();
@@ -107,7 +187,7 @@ const ViewVendor = () => {
 
   useEffect(() => {
     if (customerData?.success) {
-      setRows(customerList);
+      setRows(preprocessData(customerList));
     } else {
       setRows([]);
     }
@@ -122,7 +202,9 @@ const ViewVendor = () => {
     if (vendorToDelete) {
       console.log(vendorToDelete, "data");
       dispatch(deleteCustomerProgress(vendorToDelete));
-      setRows((prevRows) => prevRows.filter((row) => row.id !== vendorToDelete));
+      setRows((prevRows) =>
+        prevRows.filter((row) => row.id !== vendorToDelete)
+      );
       setVendorToDelete(null);
       setOpenDialog(false);
       dispatch(viewAllCustomerProgress(currentPage));
@@ -157,6 +239,55 @@ const ViewVendor = () => {
         console.log(`Unknown filter condition: ${condition}`);
     }
     handleFilterClose();
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      customer_id: "",
+      wallet_amount: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    console.log("Submitted Data:", data);
+    try {
+      const { customer_id, wallet_amount } = data;
+      const formData = { customer_id, wallet_amount };
+
+      if (isEditing) {
+        await dispatch(updateWalletProgress(formData));
+      } else {
+        await dispatch(addWalletProgress(formData));
+      }
+
+      setOpenAddWalletDialog(false);
+      dispatch(viewAllCustomerProgress(currentPage));
+    } catch (error) {
+      console.error("Error during submission:", error);
+    }
+  };
+
+  const handleAddWallet = (row) => {
+    setWalletData(row);
+    setIsEditing(false)
+    setOpenAddWalletDialog(true);
+    setValue("customerId", row.id);
+    setValue("customer_id", row.customerId);
+    setValue("wallet_amount", 0);
+  };
+  const handleEditWallet = (row) => {
+    setWalletData(row);
+    setIsEditing(true)
+    setOpenEditWalletDialog(true);
+    setValue("customerId", row.id);
+    setValue("customer_id", row.customerId);
+    setValue("wallet_amount", 0);
+    setValue("available_amount", row.availableAmount);
   };
 
   return (
@@ -197,110 +328,285 @@ const ViewVendor = () => {
         </Grid>
       </Grid>
       <Box padding={3}>
-      <StyledContainer>
-        <Menu
-          anchorEl={filterAnchorEl}
-          open={Boolean(filterAnchorEl)}
-          onClose={handleFilterClose}
-        >
-          <MenuItem onClick={() => handleFilterCondition("Condition1")}>
-            First Name A-Z
-          </MenuItem>
-          <MenuItem onClick={() => handleFilterCondition("Condition2")}>
-            Created At Newest to Oldest
-          </MenuItem>
-        </Menu>
-        {loading && ( 
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            right={0}
-            bottom={0}
-            bgcolor="rgba(255, 255, 255, 0.5)" 
-            zIndex={1000} 
+        <StyledContainer>
+          <Menu
+            anchorEl={filterAnchorEl}
+            open={Boolean(filterAnchorEl)}
+            onClose={handleFilterClose}
           >
-            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-              <CircleLoader loading={loading} size={50} color="#1d7f41" />
-            </Box>
-          </Box>
-        )}
-        {!loading && (
-          <>
-            <StyledDataGrid
-              rows={customerList}
-              columns={columns(handleDeleteRow)}
-              pageSize={vendorPageSize}
-              pagination={false}
-              onSelectionModelChange={(newSelection) => {
-                setSelection(newSelection);
-              }}
-            />
-            {selection.length > 0 && (
-              <div>
-                <h2>Selected Rows:</h2>
-                {selection.map((id) => (
-                  <div key={id}>
-                    {rows.find((row) => row.id === id)?.first_name}
-                  </div>
-                ))}
-              </div>
-            )}
+            <MenuItem onClick={() => handleFilterCondition("Condition1")}>
+              First Name A-Z
+            </MenuItem>
+            <MenuItem onClick={() => handleFilterCondition("Condition2")}>
+              Created At Newest to Oldest
+            </MenuItem>
+          </Menu>
+          {loading && (
             <Box
-              className="button-box"
-              padding={{ xs: 1, sm: 3 }}
-              display="flex"
-              justifyContent="end"
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
+              bgcolor="rgba(255, 255, 255, 0.5)"
+              zIndex={1000}
             >
-              <Button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                sx={paginationStyles.PreviousButton}
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="100%"
               >
-                &lt;&lt; Previous
-              </Button>
-              <Box sx={{ backgroundColor: "#e3e4eb" }}>
-                {Array.from(
-                  { length: Math.ceil(totalRecords / vendorPageSize) },
-                  (_, i) => i + 1
-                ).map((pageNumber) => (
-                  <Button
-                    key={pageNumber}
-                    onClick={() => setCurrentPage(pageNumber)}
+                <CircleLoader loading={loading} size={50} color="#1d7f41" />
+              </Box>
+            </Box>
+          )}
+          {!loading && (
+            <>
+              <StyledDataGrid
+                rows={preprocessData(customerList)}
+                columns={columns(
+                  handleDeleteRow,
+                  handleAddWallet,
+                  handleEditWallet
+                )}
+                pageSize={vendorPageSize}
+                pagination={false}
+                onSelectionModelChange={(newSelection) => {
+                  setSelection(newSelection);
+                }}
+              />
+              {selection.length > 0 && (
+                <div>
+                  <h2>Selected Rows:</h2>
+                  {selection.map((id) => (
+                    <div key={id}>
+                      {rows.find((row) => row.id === id)?.first_name}
+                    </div>
+                  ))}
+                </div>
+              )}
+              <Box
+                className="button-box"
+                padding={{ xs: 1, sm: 3 }}
+                display="flex"
+                justifyContent="end"
+              >
+                <Button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  sx={paginationStyles.PreviousButton}
+                >
+                  &lt;&lt; Previous
+                </Button>
+                <Box sx={{ backgroundColor: "#e3e4eb" }}>
+                  {Array.from(
+                    { length: Math.ceil(totalRecords / vendorPageSize) },
+                    (_, i) => i + 1
+                  ).map((pageNumber) => (
+                    <Button
+                      key={pageNumber}
+                      onClick={() => setCurrentPage(pageNumber)}
+                      sx={{
+                        backgroundColor:
+                          currentPage === pageNumber ? "#fff" : "#e3e4eb",
+                        color: currentPage === pageNumber ? "#000" : "#b6bee8",
+                        ...paginationStyles.arrayButtons,
+                      }}
+                    >
+                      {pageNumber}
+                    </Button>
+                  ))}
+                </Box>
+                <Button
+                  onClick={() =>
+                    setCurrentPage((prev) =>
+                      Math.min(
+                        prev + 1,
+                        Math.ceil(totalRecords / vendorPageSize)
+                      )
+                    )
+                  }
+                  sx={paginationStyles.nextButton}
+                >
+                  Next &gt;&gt;
+                </Button>
+              </Box>
+              <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                  Are you sure you want to delete this row?
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setOpenDialog(false)} color="primary">
+                    Cancel
+                  </Button>
+                  <Button onClick={confirmDelete} color="primary">
+                    OK
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={openAddWalletDialog}
+                onClose={() => setOpenAddWalletDialog(false)}
+              >
+                <DialogTitle>Add Wallet</DialogTitle>
+                <DialogContent>
+                  <Box
                     sx={{
-                      backgroundColor:
-                        currentPage === pageNumber ? "#fff" : "#e3e4eb",
-                      color: currentPage === pageNumber ? "#000" : "#b6bee8",
-                      ...paginationStyles.arrayButtons,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                     }}
                   >
-                    {pageNumber}
+                    <StyledTextField
+                      label="Customer Id"
+                      sx={{ width: "100%", marginBottom: 2 }}
+                      {...register("customerId", {
+                        required: "Customer Id is required",
+                        maxLength: {
+                          value: 50,
+                          message: "Customer Id cannot exceed 50 characters",
+                        },
+                      })}
+                      error={!!errors.customerId}
+                      helperText={
+                        errors.customerId ? errors.customerId.message : ""
+                      }
+                      disabled
+                    />
+                    <StyledTextField
+                      label="Customer ID"
+                      sx={{ width: "100%", marginBottom: 2,display:"none" }}
+                      {...register("customer_id", {
+                        required: "Customer ID is required",
+                        maxLength: {
+                          value: 50,
+                          message: "Customer ID cannot exceed 50 characters",
+                        },
+                      })}
+                      error={!!errors.customer_id}
+                      helperText={errors.customer_id?.message}
+                      disabled
+                    />
+                    <StyledTextField
+                      label="Wallet Amount"
+                      sx={{ width: "100%" }}
+                      {...register("wallet_amount", {
+                        required: "Wallet Amount is required",
+                        valueAsNumber: true,
+                        min: {
+                          value: 0.01,
+                          message: "Wallet Amount must be greater than 0",
+                        },
+                      })}
+                      error={!!errors.wallet_amount}
+                      helperText={errors.wallet_amount?.message}
+                    />
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => setOpenAddWalletDialog(false)}
+                    color="primary"
+                  >
+                    Cancel
                   </Button>
-                ))}
-              </Box>
-              <Button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(totalRecords / vendorPageSize)))}
-                sx={paginationStyles.nextButton}
+                  <Button onClick={handleSubmit(onSubmit)} color="primary">
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={openEditWalletDialog}
+                onClose={() => setOpenEditWalletDialog(false)}
               >
-                Next &gt;&gt;
-              </Button>
-            </Box>
-            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-              <DialogTitle>Confirm Delete</DialogTitle>
-              <DialogContent>
-                Are you sure you want to delete this row?
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={confirmDelete} color="primary">
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </>
-        )}
-      </StyledContainer>
+                <DialogTitle>Add Wallet</DialogTitle>
+                <DialogContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <StyledTextField
+                      label="Customer Id"
+                      sx={{ width: "100%", marginBottom: 2 }}
+                      {...register("customerId", {
+                        required: "Customer Id is required",
+                        maxLength: {
+                          value: 50,
+                          message: "Customer Id cannot exceed 50 characters",
+                        },
+                      })}
+                      error={!!errors.customerId}
+                      helperText={
+                        errors.customerId ? errors.customerId.message : ""
+                      }
+                      disabled
+                    />
+                    <StyledTextField
+                      label="Customer ID"
+                      sx={{ width: "100%", marginBottom: 2 ,display:"none" }}
+                      {...register("customer_id", {
+                        required: "Customer ID is required",
+                        maxLength: {
+                          value: 50,
+                          message: "Customer ID cannot exceed 50 characters",
+                        },
+                      })}
+                      error={!!errors.customer_id}
+                      helperText={errors.customer_id?.message}
+                      disabled
+                    />{" "}
+                    <StyledTextField
+                      label="Available Amount"
+                      sx={{ width: "100%" }}
+                      {...register("available_amount", {
+                        required: "Available Amount is required",
+                        valueAsNumber: true,
+                        min: {
+                          value: 0.01,
+                          message: "Available Amount must be greater than 0",
+                        },
+                      })}
+                      error={!!errors.wallet_amount}
+                      helperText={errors.wallet_amount?.message}
+                      disabled
+                    />
+                    <StyledTextField
+                      label="Wallet Amount"
+                      sx={{ width: "100%",marginBottom: 2  }}
+                      {...register("wallet_amount", {
+                        required: "Wallet Amount is required",
+                        valueAsNumber: true,
+                        min: {
+                          value: 0.01,
+                          message: "Wallet Amount must be greater than 0",
+                        },
+                      })}
+                      error={!!errors.wallet_amount}
+                      helperText={errors.wallet_amount?.message}
+                    />
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => setOpenEditWalletDialog(false)}
+                    color="primary"
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={handleSubmit(onSubmit)} color="primary">
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </>
+          )}
+        </StyledContainer>
       </Box>
     </>
   );

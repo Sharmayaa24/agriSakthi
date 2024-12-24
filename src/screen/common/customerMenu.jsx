@@ -44,7 +44,7 @@ const menuItems = [
     label: "Dashboard",
     url: APP_LINK.DASHBOARD,
   },
-
+  
   {
     key: "customers",
     icon: <Customer />,
@@ -54,22 +54,7 @@ const menuItems = [
       { name: "wallet", url: APP_LINK.WALLETLIST },
     ],
   },
-  {
-    key: "vendors",
-    icon: <PeopleOutlineOutlinedIcon />,
-    label: "Vendors",
-    url: APP_LINK.VIEWVENDOR,
-  },
-  {
-    key: "Transactions",
-    icon: <Sales />,
-    label: "Transactions",
-    submenu: [
-      { name: "Add Payment", url: APP_LINK.PAYPRIZE },
-      { name: "Payment History", url: APP_LINK.TRANSACTIONS },
-    ],
-  },
-
+  
   {
     key: "forgotPassword",
     icon: <ForgotPassword />,

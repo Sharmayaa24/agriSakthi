@@ -47,6 +47,7 @@ export const updateWalletFailure = (payload) => {
 };
 
 export const viewAllWalletProgress = (payload) => {
+    console.log(payload,"hello")
     return {
     type: WALLET_VIEW_PROGRESS,
     payload,
@@ -54,6 +55,7 @@ export const viewAllWalletProgress = (payload) => {
 };
 
 export const viewAllWalletSuccess = (payload) => {
+    console.log(payload,"hellos")
     return {
     type: WALLET_VIEW_SUCCESS,
     payload,
@@ -61,6 +63,7 @@ export const viewAllWalletSuccess = (payload) => {
 };
 
 export const viewAllWalletFailure = (payload) => {
+    console.log(payload,"hellof")
     return {
     type: WALLET_VIEW_FAILURE,
     payload,
