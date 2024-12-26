@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyledContainer, StyledTextField, StyledButton } from "../../Styles/ComponentStyles/formStyles";
 import { Box, Grid, Typography } from "@mui/material";
 import card1 from "../../image/card1.png";
 import card2 from "../../image/card2.png";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { QRCodeCanvas } from 'qrcode.react';
-
+import { addTransactionProgress } from "../../redux/transaction/transactionAction";
 const styles = {
     container: {
         display: 'flex',
@@ -44,24 +46,40 @@ const AddAmount = () => {
     const { register, handleSubmit, formState } = useForm();
     const [qrCodeVisible, setQrCodeVisible] = useState(false);
     const [amount, setAmount] = useState('');
-
-    const handleGenerateQRCode = (data) => {
-        setQrCodeVisible(true);
-        setAmount(data.AddAmount);
-    };
-
-    const { errors } = formState;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const addTransaction = useSelector((state) => state.transaction.addTransaction);
+    const transactionData = addTransaction.data.data;
 
     const onSubmit = async (data) => {
-        console.log("Form Data Submitted:", data);
+        const { AddAmount: price } = data;
+        const vendor_id = localStorage.getItem("vendorId");
+        const formData = { vendor_id, price, date: new Date() };
+
+        dispatch(addTransactionProgress(formData));
     };
+
+    const handleGenerateQRCode = (data) => {
+        if (data) {
+            const name = localStorage.getItem("firstName");
+            const qrCodeValue = `id: ${data.id}, vendor_Id: ${data.vendor_id}, price: ${data.price}, vendor_name: ${name}`;
+            console.log(qrCodeValue);
+            setQrCodeVisible(true);
+            setAmount(JSON.stringify(qrCodeValue));
+        }
+    };
+
+    useEffect(() => {
+        if (transactionData) {
+            handleGenerateQRCode(transactionData);
+        }
+    }, [transactionData]);
+
 
     const handleShare = () => {
         const canvas = document.getElementById('qr-code');
         const newCanvas = document.createElement('canvas');
         const ctx = newCanvas.getContext('2d');
-
-        // Set the new canvas size
         newCanvas.width = 400;
         newCanvas.height = 500;
         ctx.fillStyle = 'white';
@@ -82,6 +100,7 @@ const AddAmount = () => {
             });
         };
     };
+
 
     return (
         <StyledContainer padding={3}>
@@ -117,67 +136,22 @@ const AddAmount = () => {
                                         message: "Invalid AddAmount",
                                     },
                                 })}
-                                error={!!errors.AddAmount}
-                                helperText={errors.AddAmount?.message}
+                                error={!!formState.errors.AddAmount}
+                                helperText={formState.errors.AddAmount?.message}
                             />
                         </Grid>
-                        <Grid item xs={6}>
-                            <Typography variant="p" align="center" fontWeight={600} gutterBottom>
-                                Add vendor number
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                           <StyledTextField
-                            label="Vendor Number"
-                            id="VendorNumber"
-                            size="small"
-                            fullWidth
-                            value={"9908789678"}
-                            {...register("VendorName", {
-                                required: {
-                                    value: true,
-                                    message: "Missing Field VendorName",
-                                },
-                            })}
-                            error={!!errors.VendorNumber}
-                            helperText={errors.VendorNumber?.message}
-                            InputProps={{ readOnly: true }}
-                        />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography variant="p" align="center" fontWeight={600} gutterBottom>
-                                Add customer Name
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <StyledTextField
-                                label="Customer Name"
-                                id="CustomerName1"
-                                size="small"
-                                fullWidth
-                                value={"madhu"}
-                                {...register("CustomerName1", {
-                                    required: {
-                                        value: true,
-                                        message: "Missing Field CustomerName",
-                                    },
-                                })}
-                                error={!!errors.CustomerName1}
-                                helperText={errors.CustomerName1?.message}
-                                InputProps={{ readOnly: true }}
-                            />
-                        </Grid>
+               
                         <Grid item xs={6}>
                             <StyledButton
                                 variant="contained"
                                 fullWidth
-                                onClick={handleSubmit(handleGenerateQRCode)}
+                                onClick={handleSubmit(onSubmit)}
                                 disabled={formState.isSubmitting}
                                 sx={{
                                     padding: "10px 10px",
                                 }}
                             >
-                                {formState.isSubmitting ? "Signing in..." : "Generate QR Code"}
+                                {formState.isSubmitting ? "Signing in..." : "Generate QR"}
                             </StyledButton>
                         </Grid>
                     </Grid>

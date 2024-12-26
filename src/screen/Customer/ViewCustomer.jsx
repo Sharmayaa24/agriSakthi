@@ -216,7 +216,7 @@ const ViewVendor = () => {
   };
 
   const handleAddVendor = () => {
-    navigate(APP_LINK.PARTICULARCUSTOMER);
+    navigate(APP_LINK.ADDCUSTOMER);
   };
 
   const handleFilterClose = () => {

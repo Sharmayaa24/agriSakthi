@@ -5,11 +5,11 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { Link, useLocation } from "react-router-dom";
-import CustomMenuItem from "../common/CustomMenu";
-import menuItems from "./sakthiMenu";
-import sidebarStyles from "../../Styles/ComponentStyles/SideStyles";
-import Logo from "../../image/logo.png";
-import "../../Styles/Side.css";
+import CustomMenuItem from "./common/CustomMenu";
+import customermenuItems from "./common/customerMenu";
+import sidebarStyles from "../Styles/ComponentStyles/SideStyles"
+import Logo from "../image/logo.png";
+import "../Styles/Side.css";
 
 const CustomerSideBar = () => {
   const theme = useTheme();
@@ -69,14 +69,12 @@ const CustomerSideBar = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* Overlay for small screens */}
       {window.innerWidth < 650 && !isSmallCollapsed && (
         <div
           className="sidebar-overlay"
           onClick={() => setIsSmallCollapsed(true)}
         />
       )}
-      {/* Sidebar Header */}
       <Box sx={classes.sidebarContainer}>
         <Sidebar
           collapsed={window.innerWidth < 650 ? isSmallCollapsed : isCollapsed}
@@ -89,7 +87,6 @@ const CustomerSideBar = () => {
               <MenuOutlinedIcon />
             </IconButton>
           </Box>
-          {/* Scrollable Menu */}
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}
             style={{
@@ -100,7 +97,7 @@ const CustomerSideBar = () => {
             }}
           >
             <Menu iconShape="square">
-              {menuItems.map((menuItem) => {
+              {customermenuItems.map((menuItem) => {
                 const isParentActive =
                   selected === menuItem.url ||
                   (menuItem.submenu &&

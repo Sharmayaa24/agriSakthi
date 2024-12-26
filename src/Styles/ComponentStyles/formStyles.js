@@ -259,10 +259,25 @@ export const paginationStyles = {
   },
 };
 
-export const setAuthHeader = (accessToken, refreshToken) => {
+export const setAuthHeader = (
+  accessToken,
+  refreshToken,
+  userType,
+  vendor_id,
+  vendorSerialID,
+  customer_id,
+  customer_serial_no,
+  first_name
+) => {
   if (accessToken && refreshToken) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("UserType", userType);
+    localStorage.setItem("vendorId", vendor_id);
+    localStorage.setItem("customerId", customer_id);
+    localStorage.setItem("vendorSerialID", vendorSerialID);
+    localStorage.setItem("customerSerialID", customer_serial_no);
+    localStorage.setItem("firstName", first_name);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   } else {
     delete axios.defaults.headers.common["Authorization"];

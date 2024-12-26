@@ -23,37 +23,15 @@ import {
   StyledDataGrid,
   paginationStyles,
 } from "../../Styles/ComponentStyles/style";
-import { getColumnWidth } from "../../Styles/datagridMQ";
+// import { getColumnWidth } from "../../Styles/datagridMQ";
 import {APP_LINK}from "../../screen/common/sakthiMenu"
-
-const dummyData =()=> [
-  {
-    "id": 1,
-    "TransactionsId":"DAM123456",
-    "email":"sharma@gmail.com",
-    "Amount": "50000",
-    "Customer Number": "9942856222",
-    "vendorName": "John",
-    "Customer Name": "Doe 1",
-  },
-  {
-    "id": 2,
-    "TransactionsId":"DAM123456",
-    "email":"yaa@gmail.com",
-    "Amount": "20000",
-    "Customer Number": "9942856111",
-    "vendorName": "John 2",
-    "Customer Name": "Doe 2",
-  },
-  
-]
 
 
 const columns = (handleDeleteRow) => [
 
     { field: "TransactionsId", headerName: "TransactionsId", width: 300 },
-{ field: "email", headerName: "email", width: 300 },
-  { field: "Amount", headerName: "Amount", width: 300 },
+    { field: "email", headerName: "email", width: 300 },
+    { field: "Amount", headerName: "Amount", width: 300 },
   {
     field: "Customer Name",
     headerName: "Customer Name",
@@ -112,7 +90,7 @@ const ActionMenu = ({ user, onDelete }) => {
 };
 
 const ListPayments = () => {
-  const [rows, setRows] = useState(dummyData());
+  const [rows, setRows] = useState();
   const [selection, setSelection] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;

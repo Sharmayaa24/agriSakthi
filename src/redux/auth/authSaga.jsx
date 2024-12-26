@@ -35,12 +35,39 @@ function* LoginWatcher({ payload }) {
   console.log('SAGA', payload);
   try {
     let {data} = yield call(AuthEffect, payload);
-   console.log(data); 
-    const { user, accessToken, refreshToken } = data; 
-    console.log('User  Data:', user);
+console.log(data); 
+const { user, accessToken, refreshToken } = data;
+console.log("User:", user);
+console.log("Access Token:", accessToken);
+console.log("Refresh Token:", refreshToken);
+const { 
+  address, 
+  contact, 
+  created_at, 
+  email, 
+  first_name, 
+  last_name, 
+  user_type, 
+  vendor_id, 
+  vendor_serial_no,
+  customer_id,
+  customer_serial_no
+} = user;
+
+console.log("Address:", address);
+console.log("Contact:", contact);
+console.log("Created At:", created_at);
+console.log("Email:", email);
+console.log("First Name:", first_name);
+console.log("Last Name:", last_name);
+console.log("User Type:", user_type);
+console.log("Vendor ID:", vendor_id);
+console.log("Vendor Serial No:", vendor_serial_no);
+console.log("customer Id:", customer_id);
+    console.log('User  Data:', user.vendor_id);
     console.log('Access Token:', accessToken);
     console.log('Refresh Token:', refreshToken);
-    setAuthHeader(accessToken,refreshToken);
+    setAuthHeader(accessToken,refreshToken,user_type,vendor_id,vendor_serial_no,user.customer_id,customer_serial_no,first_name);
     yield put(
       logInSuccess({
         data: data,

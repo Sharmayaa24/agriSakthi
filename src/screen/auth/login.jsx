@@ -37,7 +37,7 @@ const Login = () => {
   const { errors } = formState;
   const loginState = useSelector((state) => state.login.user);
   const { authSuccess, authError } = loginState;
-
+console.log(loginState);
   const onSubmit = async (data) => {
     const { email, password } = data;
     setLoading(true);
@@ -100,7 +100,7 @@ const Login = () => {
                   message: "Missing Field Email",
                 },
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                   message: "Invalid Email",
                 },
               })}
