@@ -62,6 +62,7 @@ const AddVendor = () => {
       dispatch(resetVendorState());
       setSuccessMessage("");
       if (errormessage) {
+        console.log(errormessage);
         if (errormessage.includes("email must be unique")) {
           setErrorMessage("Email already present.");
         } else if (errormessage.includes("contact must be unique")) {

@@ -59,14 +59,14 @@ const AddAmount = () => {
         dispatch(addTransactionProgress(formData));
     };
 
-    const handleGenerateQRCode = (data) => {
-        if (data) {
-            const name = localStorage.getItem("firstName");
-            const qrCodeValue = `id: ${data.id}, vendor_Id: ${data.vendor_id}, price: ${data.price}, vendor_name: ${name}`;
-            console.log(qrCodeValue);
-            setQrCodeVisible(true);
-            setAmount(JSON.stringify(qrCodeValue));
-        }
+   const handleGenerateQRCode = (data) => {
+    if (data) {
+        const name = localStorage.getItem("firstName");
+       const qrCodeValue = JSON.stringify({ id: data.id, vendor_Id: data.vendor_id, price: data.price, vendor_name: name });
+        console.log(qrCodeValue);
+        setQrCodeVisible(true);
+        setAmount(qrCodeValue);
+    }
     };
 
     useEffect(() => {
@@ -100,8 +100,6 @@ const AddAmount = () => {
             });
         };
     };
-
-
     return (
         <StyledContainer padding={3}>
             <Grid container spacing={2} marginBottom={3}>
@@ -140,7 +138,6 @@ const AddAmount = () => {
                                 helperText={formState.errors.AddAmount?.message}
                             />
                         </Grid>
-               
                         <Grid item xs={6}>
                             <StyledButton
                                 variant="contained"

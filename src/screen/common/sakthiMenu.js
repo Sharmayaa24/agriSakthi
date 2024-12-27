@@ -67,12 +67,12 @@ const menuItems = [
     ],
   },
 
-  {
-    key: "forgotPassword",
-    icon: <ForgotPassword />,
-    label: "Change Password",
-    url: APP_LINK.FORGOTPASSWORD,
-  },
+  // {
+  //   key: "forgotPassword",
+  //   icon: <ForgotPassword />,
+  //   label: "Change Password",
+  //   url: APP_LINK.FORGOTPASSWORD,
+  // },
   {
     key: "profile",
     icon: <Admin />,

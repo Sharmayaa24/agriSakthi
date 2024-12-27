@@ -237,7 +237,7 @@ const VendorPaymentList = () => {
               onClick={handeladdproduct}
               sx={{ backgroundColor: "#1d7f41", color: "#fff" }}
             >
-              Add New
+              New Payment
             </Button>
 
             <Button

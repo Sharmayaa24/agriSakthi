@@ -89,6 +89,7 @@ console.log("customer Id:", customer_id);
 function* SignUpWatcher({payload}) {
   try {
     let {data} = yield call(SignUpEffect, payload);
+    console.log('SignUp Data:', data);
     yield put(
       signUpInSuccess({
         data: data,
@@ -97,11 +98,9 @@ function* SignUpWatcher({payload}) {
       }),
     );
   } catch (err) {
+    console.error('SignUp Error:', err);
     yield put(
-      signUpInFailure({
-        error: true,
-        message: err['message'],
-      }),
+      signUpInFailure(err),
     );
   }
 }

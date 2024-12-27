@@ -11,7 +11,7 @@ const customermenuItems = [
     key: "dashboard",
     icon: <SpeedIcon />,
     label: "Dashboard",
-    url: APP_LINK.DASHBOARD,
+    url: APP_LINK.CUSTOMERDASHBOARD,
   },
   
   {
@@ -21,18 +21,18 @@ const customermenuItems = [
     url:APP_LINK.TRANSACTIONS,
   },
   
-  {
-    key: "forgotPassword",
-    icon: <ForgotPassword />,
-    label: "Change Password",
-    url: APP_LINK.FORGOTPASSWORD,
-  },
-  {
-    key: "profile",
-    icon: <Admin />,
-    label: "My Profile",
-    url: APP_LINK.EDITCUSTOMER,
-  },
+  // {
+  //   key: "forgotPassword",
+  //   icon: <ForgotPassword />,
+  //   label: "Change Password",
+  //   url: APP_LINK.FORGOTPASSWORD,
+  // },
+  // {
+  //   key: "profile",
+  //   icon: <Admin />,
+  //   label: "My Profile",
+  //   url: APP_LINK.EDITCUSTOMER,
+  // },
 
 ];
 

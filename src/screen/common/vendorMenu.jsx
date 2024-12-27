@@ -11,31 +11,28 @@ const vendormenuItems = [
     key: "dashboard",
     icon: <SpeedIcon />,
     label: "Dashboard",
-    url: APP_LINK.DASHBOARD,
+    url: APP_LINK.VENDORDASHBOARD,
   },
   
   {
     key: "Transaction",
     icon: <Customer />,
     label: "Transaction",
-     submenu: [
-          { name: "Transaction list",url: APP_LINK.VENDORPAYMENTLIST  },
-          { name: "sales",url: APP_LINK.PAYPRIZE  },
-        ],
+    url: APP_LINK.VENDORPAYMENTLIST,
   },
   
-  {
-    key: "forgotPassword",
-    icon: <ForgotPassword />,
-    label: "Change Password",
-    url: APP_LINK.FORGOTPASSWORD,
-  },
-  {
-    key: "profile",
-    icon: <Admin />,
-    label: "My Profile",
-    url: APP_LINK.EDITCUSTOMER,
-  },
+  // {
+  //   key: "forgotPassword",
+  //   icon: <ForgotPassword />,
+  //   label: "Change Password",
+  //   url: APP_LINK.FORGOTPASSWORD,
+  // },
+  // {
+  //   key: "profile",
+  //   icon: <Admin />,
+  //   label: "My Profile",
+  //   url: APP_LINK.EDITCUSTOMER,
+  // },
 
 ];
 

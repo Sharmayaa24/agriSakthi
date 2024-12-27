@@ -1,16 +1,25 @@
 import React from "react";
-import { Box, IconButton, Badge, Typography, Grid, Button } from "@mui/material";
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+import {
+  Box,
+  IconButton,
+  Badge,
+  Typography,
+  Grid,
+  Button,
+} from "@mui/material";
+import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { topbarStyles } from "../../Styles/ComponentStyles/TopStyles";
 
 const Topbar = () => {
   const toggleFullScreen = () => {
-    const root = document.getElementById('root');
+    const root = document.getElementById("root");
 
     if (!document.fullscreenElement) {
-      root.requestFullscreen().catch(err => {
-        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      root.requestFullscreen().catch((err) => {
+        console.error(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
       });
     } else {
       document.exitFullscreen();
@@ -30,22 +39,14 @@ const Topbar = () => {
             alignItems="center"
             gap={2}
           >
-              <IconButton sx={topbarStyles.settingsButton1} onClick={toggleFullScreen}>
-                <ZoomOutMapIcon />
-              </IconButton>   
-            {/* Settings Icon */}
-            <Badge badgeContent="!" color="error" overlap="rectangular">
-              <IconButton sx={topbarStyles.settingsButton}>
-                <SettingsOutlinedIcon sx={topbarStyles.settingsIcon} />
-              </IconButton>
-            </Badge>
+            <IconButton
+              sx={topbarStyles.settingsButton1}
+              onClick={toggleFullScreen}
+            >
+              <ZoomOutMapIcon />
+            </IconButton>
             {/* Profile Section */}
-           <Box display="flex" alignItems="center" gap={2}>
-              <img
-                src="https://via.placeholder.com/40"
-                alt="Profile"
-                style={topbarStyles.profileImage}
-              />
+            <Box display="flex" alignItems="center" gap={2}>
               <Button>
                 <Typography variant="body2" color="#686868" fontSize={14}>
                   logout

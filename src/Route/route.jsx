@@ -27,6 +27,8 @@ import ViewWallet from "../screen/wallet/viewAllWallet";
 import CustomerSideBar from "../screen/CustomerSidebar"
 import VendorSideBar from "../screen/VendorSidmenu"
 import VendorPaymentList from "../screen/sales/vendorTransactionList";
+import VendorDashboard from "../screen/VendorDashboard";
+import CustomerDashboard from "../screen/CustomerDashboard";
 import { useDispatch, useSelector } from 'react-redux';
 import "../Styles/style.css"
 import React from 'react';
@@ -81,14 +83,17 @@ const RenderSidebar = () => {
             <Route path={APP_LINK.VIEWADMIN} element={<ViewAdmin />} />
             <Route path={APP_LINK.ADDWALLET} element={<AddWallet />} />
             <Route path={APP_LINK.PAYPRIZE} element={<AddAmount />} />
-            <Route path={APP_LINK.DASHBOARD} element={userType === "1" ? <Dashboard /> : null} />
+         
             <Route path={APP_LINK.TRANSACTIONS} element={<ListPayments />} />
             <Route path={APP_LINK.PARTICULARVENDOR} element={<DetailsTable />} />
             <Route path={APP_LINK.PARTICULARCUSTOMER} element={<CustomerTable />} />
             <Route path={APP_LINK.WALLETLIST} element={<ViewWallet />} />
-            <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerSideBar />} />
-            <Route path={APP_LINK.VENDORDASHBOARDT} element={<VendorSideBar />} />
+            {/* <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerSideBar />} />
+            <Route path={APP_LINK.VENDORDASHBOARDT} element={<VendorSideBar />} /> */}
             <Route path={APP_LINK.VENDORPAYMENTLIST} element={<VendorPaymentList />} />
+        <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
+        <Route path={APP_LINK.VENDORDASHBOARD} element={<VendorDashboard /> }/>
+        <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerDashboard /> }/>
           </Routes>
         </main>
       </div>

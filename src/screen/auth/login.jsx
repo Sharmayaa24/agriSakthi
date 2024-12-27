@@ -49,7 +49,16 @@ console.log(loginState);
       setTimeout(() => {
         setLoading(false);
         if (Boolean(authSuccess) === true) {
-          navigate("/dashboard");
+          const userType=localStorage.getItem("UserType");
+          if(userType==="1"){
+            navigate("/dashboard");
+            }
+            else if(userType ==="2"){
+              navigate("/vendor/dashboard");
+            }
+            else if(userType==="3"){
+              navigate("/customer/dashboard");
+            }
         } else if (Boolean(authError) === true) {
           setOpenDialog(true);
           setDialogMessage(authError?.message || "Login Failed! Please check your credentials.");
