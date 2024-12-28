@@ -35,6 +35,7 @@ const SignUpEffect = data => {
 };
 
 const RegisterOtpEffect = data => {
+  console.log(data);
   return new Promise((resolve, reject) => {
     authInstance.request({
       url: '/auth/otpVerification',
@@ -45,7 +46,24 @@ const RegisterOtpEffect = data => {
     .catch(error => reject(handleApiError(error)));
   });
 };
-
+const ValidOtpEffect = data => {
+  console.log(data);
+  return new Promise((resolve, reject) => {
+    authInstance.request({
+      url: '/auth/otpVerification',
+      method: 'POST',
+      data: data,
+    })
+    .then(response =>{
+      console.log(response);
+      resolve(response);
+    })
+    .catch(error => {
+      console.log(error);
+      reject(handleApiError(error));
+    });
+  });
+};
 const ForgetPasswordEffect = data => {
   return new Promise((resolve, reject) => {
     authInstance.request({
@@ -53,7 +71,10 @@ const ForgetPasswordEffect = data => {
       method: 'POST',
       data: data,
     })
-    .then(response => resolve(response))
+    .then(response =>{
+      console.log(response);
+      resolve(response);
+    })
     .catch(error => reject(error));
   });
 };
@@ -88,4 +109,5 @@ export {
   ForgetPasswordEffect,
   RequestOtpEffect,
   ResendOtpEffect,
+  ValidOtpEffect
 };

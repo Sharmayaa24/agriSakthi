@@ -18,7 +18,10 @@ import {
   RESET_STATE,
   SIGN_UP_IN_FAILURE,
   SIGN_UP_IN_PROGRESS,
-  SIGN_UP_IN_SUCCESS
+  SIGN_UP_IN_SUCCESS,
+  VALIDATE_OTP_IN_FAILURE,
+  VALIDATE_OTP_IN_PROGRESS,
+  VALIDATE_OTP_IN_SUCCESS
 } from './authTypes'
 
 const initialState = {
@@ -26,6 +29,7 @@ const initialState = {
   NewUser: { Success: false, error: false },
   registertOtp: { ...defaultStatus },
   ForgetPassword: { ...defaultStatus },
+  ValidOtp: { ...defaultStatus },
   requestOtp: { ...defaultStatus },
   resendOtp: { ...defaultStatus },
   reset: { ...defaultStatus }
@@ -123,7 +127,7 @@ const AuthReducer = (state = initialState, action) => {
         registertOtp: { ...defaultStatus, ...payload, error: true }
       }
     case FORGOT_PASSWORD_IN_PROGRESS:
-      console.log('Forgot pswd REDUCER', payload)
+      console.log('Forgot pwd REDUCER', payload)
       return {
         ...state,
         ForgetPassword: { ...defaultStatus, ...payload, inProgress: true }
@@ -131,12 +135,12 @@ const AuthReducer = (state = initialState, action) => {
     case FORGOT_PASSWORD_IN_SUCCESS:
       return {
         ...state,
-        ForgetPassword: { ...defaultStatus, ...payload, success: true }
+        ForgetPassword: { ...defaultStatus, message:payload, success: true }
       }
     case FORGOT_PASSWORD_IN_FAILURE:
       return {
         ...state,
-        ForgetPassword: { ...defaultStatus, ...payload, error: true }
+        ForgetPassword: { ...defaultStatus, message:payload, error: true }
       }
     case REQUEST_OTP_IN_PROGRESS:
       return {
@@ -175,10 +179,25 @@ const AuthReducer = (state = initialState, action) => {
         user: { authInProgress: false, authSuccess: false, authError: false },
         registertOtp: { ...defaultStatus },
         ForgetPassword: { ...defaultStatus },
-        requestOtp: { ...defaultStatus },
+        requestOtp: { ...defaultStatus,success:false },
         resendOtp: { ...defaultStatus },
         reset: { ...defaultStatus }
       }
+      case VALIDATE_OTP_IN_PROGRESS:
+        return {
+          ...state,
+          ValidOtp: { ...defaultStatus, ...payload, inProgress: true }
+        }
+        case VALIDATE_OTP_IN_SUCCESS:
+          return {
+            ...state,
+            ValidOtp: { ...defaultStatus, ...payload, success: true }
+          }
+          case VALIDATE_OTP_IN_FAILURE:
+            return {
+              ...state,
+              ValidOtp: { ...defaultStatus, message:payload, error: true }
+            }
     default:
       return state
   }

@@ -50,19 +50,19 @@ const AddAmount = () => {
     const navigate = useNavigate();
     const addTransaction = useSelector((state) => state.transaction.addTransaction);
     const transactionData = addTransaction.data.data;
-
+    console.log(transactionData);
     const onSubmit = async (data) => {
         const { AddAmount: price } = data;
         const vendor_id = localStorage.getItem("vendorId");
         const formData = { vendor_id, price, date: new Date() };
-
         dispatch(addTransactionProgress(formData));
     };
 
    const handleGenerateQRCode = (data) => {
+    
     if (data) {
         const name = localStorage.getItem("firstName");
-       const qrCodeValue = JSON.stringify({ id: data.id, vendor_Id: data.vendor_id, price: data.price, vendor_name: name });
+       const qrCodeValue = JSON.stringify({ id: data.id, vendor_Id: data.vendor_id, price: data.price, vendor_name: name,shop_name:data.shop_name });
         console.log(qrCodeValue);
         setQrCodeVisible(true);
         setAmount(qrCodeValue);

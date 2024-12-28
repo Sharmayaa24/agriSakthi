@@ -41,7 +41,7 @@ import {
 } from "../../redux/wallet/walletAction";
 
 const columns = (handleDeleteRow, handleAddWallet, handleEditWallet) => [
-  { field: "id", headerName: "Vendor ID", width: getColumnWidth("CustomerId") },
+  { field: "id", headerName: "Customer ID", width: getColumnWidth("CustomerId") },
   {
     field: "first_name",
     headerName: "First Name",
@@ -135,7 +135,7 @@ const ActionMenu = ({ user, onDelete }) => {
   );
 };
 
-const ViewVendor = () => {
+const ViewCustomer = () => {
   const [selection, setSelection] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
@@ -612,4 +612,4 @@ const ViewVendor = () => {
   );
 };
 
-export default ViewVendor;
+export default ViewCustomer;

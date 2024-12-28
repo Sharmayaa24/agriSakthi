@@ -13,6 +13,8 @@ import {
   ResendOtpSuccess,
   signUpInFailure,
   signUpInSuccess,
+  ValidateOtpFailure,
+  ValidateOtpSuccess,
 } from './authAction';
 import {
   AuthEffect,
@@ -21,6 +23,7 @@ import {
   RequestOtpEffect,
   ResendOtpEffect,
   SignUpEffect,
+  ValidOtpEffect,
 } from './autheffect';
 import {
   FORGOT_PASSWORD_IN_PROGRESS,
@@ -29,6 +32,7 @@ import {
   REQUEST_OTP_IN_PROGRESS,
   RESEND_OTP_IN_PROGRESS,
   SIGN_UP_IN_PROGRESS,
+  VALIDATE_OTP_IN_PROGRESS,
 } from './authTypes';
 
 function* LoginWatcher({ payload }) {
@@ -67,7 +71,7 @@ console.log("customer Id:", customer_id);
     console.log('User  Data:', user.vendor_id);
     console.log('Access Token:', accessToken);
     console.log('Refresh Token:', refreshToken);
-    setAuthHeader(accessToken,refreshToken,user_type,vendor_id,vendor_serial_no,user.customer_id,customer_serial_no,first_name);
+    setAuthHeader(accessToken,refreshToken,user_type,vendor_id,vendor_serial_no,user.customer_id,customer_serial_no,first_name,email);
     yield put(
       logInSuccess({
         data: data,
@@ -163,6 +167,24 @@ function* RequestOtpWatcher({payload}) {
     );
   }
 }
+function* ValidOtpWatcher({payload}) {
+  try {
+    let {data} = yield call(ValidOtpEffect, payload);
+    console.log('Validate Otp Data:', data);
+    yield put(
+      ValidateOtpSuccess  ({
+        data: data,
+        message: data['message'],
+        success: true,
+      }),
+    );
+  } catch (err) {
+    console.log('Validate Otp Error:', err.message);
+    yield put(
+      ValidateOtpFailure(err),
+    );
+  }
+}
 function* ResendOtpWatcher({payload}) {
   try {
     let {data} = yield call(ResendOtpEffect, payload);
@@ -188,5 +210,6 @@ export default function* AuthSaga() {
   yield takeLatest(REGISTER_OTP_IN_PROGRESS, RegisterOtpWatcher);
   yield takeLatest(FORGOT_PASSWORD_IN_PROGRESS, ForgetPasswordWatcher);
   yield takeLatest(REQUEST_OTP_IN_PROGRESS, RequestOtpWatcher);
+  yield takeLatest(VALIDATE_OTP_IN_PROGRESS, ValidOtpWatcher);
   yield takeLatest(RESEND_OTP_IN_PROGRESS, ResendOtpWatcher);
 }

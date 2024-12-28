@@ -28,7 +28,7 @@ const Login = () => {
 
   const form = useForm({
     defaultValues: {
-      email: "admin@gmail.com",
+      email: "",
       password: "Test@12345",
     },
   });
@@ -41,7 +41,7 @@ console.log(loginState);
   const onSubmit = async (data) => {
     const { email, password } = data;
     setLoading(true);
-    dispatch(logInProgress({ email, password }));
+    dispatch(logInProgress({ email, password,type:"1",user_type:"3" }));
   };
 
   React.useEffect(() => {
@@ -156,14 +156,14 @@ console.log(loginState);
                 Forgot Password?
               </Typography>
             </Link>
-            <Typography variant="body2" align="center" gutterBottom>
+            {/* <Typography variant="body2" align="center" gutterBottom>
               - - - - - - - - -  or - - - - - - - - -
-            </Typography>
+            </Typography> */}
           </Grid>
           <Grid item xs={12} align="center">
-            <StyledButton1 variant="contained" fullWidth onClick={handleSignin}>
+            {/* <StyledButton1 variant="contained" fullWidth onClick={handleSignin}>
               Register
-            </StyledButton1>
+            </StyledButton1> */}
           </Grid>
         </Grid>
         {loading && (

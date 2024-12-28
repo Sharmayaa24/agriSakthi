@@ -113,16 +113,16 @@ const DetailsTable = () => {
             }}
             >
               <TableRow>
-                <TableCell sx={{ ...tableStyle.headingStyle }}>Vendor ID :</TableCell>
-                <TableCell>{vendorList.id}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{ ...tableStyle.centerRow }}>First Name :</TableCell>
+                <TableCell sx={{ ...tableStyle.headingStyle}}>First Name :</TableCell>
                 <TableCell>{vendorList.first_name}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{ ...tableStyle.centerRow }}>Last Name :</TableCell>
                 <TableCell>{vendorList.last_name}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell sx={{ ...tableStyle.centerRow }}>Shop Name :</TableCell>
+                <TableCell>{vendorList.shop_name}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{ ...tableStyle.centerRow }}>Address :</TableCell>

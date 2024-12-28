@@ -46,6 +46,7 @@ const UpdateVendor = () => {
     if (vendorList) {
       setValue("first_name", vendorList.first_name);
       setValue("last_name", vendorList.last_name);
+      setValue("shop_name", vendorList.shop_name);
       setValue("address", vendorList.address);
       setValue("email", vendorList.email);
       setValue("phone", vendorList.phone);
@@ -145,6 +146,22 @@ const UpdateVendor = () => {
               {...register("last_name", { required: "Last Name is required" })}
               error={!!errors.last_name}
               helperText={errors.last_name ? errors.last_name.message : ""}
+            />
+          </Box>
+          <Box>
+            <Typography variant="h6" fontSize={16} sx={styles.textFieldContainer}>
+              Shop Name 
+            </Typography>
+            <StyledTextField
+              id="shop_name"
+              size="large"
+              InputProps={{
+                autoComplete: "off",
+              }}
+              fullWidth
+              {...register("shop_name", { required: "shop Name is required" })}
+              error={!!errors.shop_name}
+              helperText={errors.shop_name ? errors.shop_name.message : ""}
             />
           </Box>
           <Box>

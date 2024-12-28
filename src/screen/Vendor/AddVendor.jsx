@@ -29,8 +29,8 @@ const AddVendor = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false); 
-  const[mobileMessage,setMobileMessage]=useState("")
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const[mobileMessage,setMobileMessage]=useState(false)
+  const [errorMessage, setErrorMessage] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const vendorData = useSelector((state) => state.vendor.addVendor);
@@ -45,7 +45,7 @@ const AddVendor = () => {
     dispatch(addVendorProgress(data)); 
   };
 
-  // useEffect(() => {
+   useEffect(() => {
     if (vendorData.success) {
       dispatch(resetVendorState());
       setErrorMessage("");
@@ -76,7 +76,7 @@ const AddVendor = () => {
         }, 3000);
       }
     }
-  // }, []);
+   }, [vendorData, errormessage, message, dispatch, navigate, reset]);
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -112,6 +112,7 @@ const AddVendor = () => {
               helperText={errors.first_name ? errors.first_name.message : ""}
             />
           </Box>
+         
           <Box>
             <Typography variant="h6" fontSize={16} sx={styles.textFieldContainer}>
               Last Name 
@@ -126,6 +127,22 @@ const AddVendor = () => {
               {...register("last_name", { required: "Last Name is required" })}
               error={!!errors.last_name}
               helperText={errors.last_name ? errors.last_name.message : ""}
+            />
+          </Box>
+          <Box>
+            <Typography variant="h6" fontSize={16} sx={styles.textFieldContainer}>
+              Shop Name 
+            </Typography>
+            <StyledTextField
+              id="shop_name"
+              size="large"
+              InputProps={{
+                autoComplete: "off",
+              }}
+              fullWidth
+              {...register("shop_name", { required: "shop Name is required" })}
+              error={!!errors.shop_name}
+              helperText={errors.shop_name ? errors.shop_name.message : ""}
             />
           </Box>
           <Box>

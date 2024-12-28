@@ -267,7 +267,8 @@ export const setAuthHeader = (
   vendorSerialID,
   customer_id,
   customer_serial_no,
-  first_name
+  first_name,
+  email
 ) => {
   if (accessToken && refreshToken) {
     localStorage.setItem("accessToken", accessToken);
@@ -278,6 +279,7 @@ export const setAuthHeader = (
     localStorage.setItem("vendorSerialID", vendorSerialID);
     localStorage.setItem("customerSerialID", customer_serial_no);
     localStorage.setItem("firstName", first_name);
+    localStorage.setItem("email", email);
     axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
   } else {
     delete axios.defaults.headers.common["Authorization"];

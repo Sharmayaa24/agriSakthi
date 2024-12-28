@@ -65,7 +65,7 @@ const OTPInputWithTimer = () => {
       setTimeout(() => {
         setDialogOpen(false)
         setIsSuccess(false)
-        navigate('/change-password')
+        navigate('/')
       }, 3000)
     } else if (otpDetails?.message === 'Enter the correct OTP') {
       setErrorMessage('Enter the correct OTP')

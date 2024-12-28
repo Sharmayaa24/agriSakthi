@@ -29,10 +29,11 @@ import VendorSideBar from "../screen/VendorSidmenu"
 import VendorPaymentList from "../screen/sales/vendorTransactionList";
 import VendorDashboard from "../screen/VendorDashboard";
 import CustomerDashboard from "../screen/CustomerDashboard";
+import CustomerPaymentList from "../screen/sales/customerTransaction";
 import { useDispatch, useSelector } from 'react-redux';
 import "../Styles/style.css"
 import React from 'react';
-
+import ChangePassword from "../screen/auth/changePassword";
 const RouteComponent = () => {
 const location = useLocation();
 const newuser = useSelector((state) => state.login.user);
@@ -59,7 +60,8 @@ const RenderSidebar = () => {
     location.pathname === APP_LINK.LOGIN ||
     location.pathname === APP_LINK.REGISTER ||
     location.pathname === APP_LINK.FORGOTPASSWORD ||
-    location.pathname === APP_LINK.OTP;
+    location.pathname === APP_LINK.OTP||
+    location.pathname === APP_LINK.CHANGEPASSWORD;
 
   return (
     <div>
@@ -83,17 +85,16 @@ const RenderSidebar = () => {
             <Route path={APP_LINK.VIEWADMIN} element={<ViewAdmin />} />
             <Route path={APP_LINK.ADDWALLET} element={<AddWallet />} />
             <Route path={APP_LINK.PAYPRIZE} element={<AddAmount />} />
-         
             <Route path={APP_LINK.TRANSACTIONS} element={<ListPayments />} />
             <Route path={APP_LINK.PARTICULARVENDOR} element={<DetailsTable />} />
             <Route path={APP_LINK.PARTICULARCUSTOMER} element={<CustomerTable />} />
             <Route path={APP_LINK.WALLETLIST} element={<ViewWallet />} />
-            {/* <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerSideBar />} />
-            <Route path={APP_LINK.VENDORDASHBOARDT} element={<VendorSideBar />} /> */}
             <Route path={APP_LINK.VENDORPAYMENTLIST} element={<VendorPaymentList />} />
-        <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
-        <Route path={APP_LINK.VENDORDASHBOARD} element={<VendorDashboard /> }/>
-        <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerDashboard /> }/>
+            <Route path={APP_LINK.DASHBOARD} element={<Dashboard />} />
+            <Route path={APP_LINK.VENDORDASHBOARD} element={<VendorDashboard /> }/>
+            <Route path={APP_LINK.CUSTOMERDASHBOARD} element={<CustomerDashboard /> }/>
+            <Route path={APP_LINK.CHANGEPASSWORD} element={<ChangePassword /> }/>
+            <Route path={APP_LINK.CUSTOMERTRANSACTION} element={<CustomerPaymentList />} />
           </Routes>
         </main>
       </div>

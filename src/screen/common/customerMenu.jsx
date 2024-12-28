@@ -18,7 +18,7 @@ const customermenuItems = [
     key: "Transaction",
     icon: <Customer />,
     label: "Transaction",
-    url:APP_LINK.TRANSACTIONS,
+    url:APP_LINK.CUSTOMERTRANSACTION,
   },
   
   // {

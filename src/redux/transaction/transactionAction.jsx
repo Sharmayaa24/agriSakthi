@@ -14,6 +14,9 @@ import {
     TRANSACTION_PARTICULAR_VIEW_SUCCESS,
     TRANSACTION_PARTICULAR_VIEW_FAILURE,
     TRANSACTION_PARTICULAR_VIEW_PROGRESS,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_SUCCESS,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_FAILURE,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS,
     TRANSACTION_RESET_STATE
   } from './transactionType';
   
@@ -121,6 +124,27 @@ import {
   export const viewParticularTransactionFailure = (payload) => {
     return {
       type: TRANSACTION_PARTICULAR_VIEW_FAILURE,
+      payload: payload
+    };
+  };
+  export const viewParticularCustomerTransaction = (payload) => {
+    return {
+      type: TRANSACTION_CUSTOMER_PARTICULAR_VIEW_SUCCESS,
+      payload: payload
+    };
+  };
+  
+  export const viewParticularCustomerTransactionProgress = (payload) => {
+    console.log(payload, "progress")
+    return {
+      type: TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS,
+      payload: payload
+    };
+  };
+  
+  export const viewParticularCustomerTransactionFailure = (payload) => {
+    return {
+      type: TRANSACTION_CUSTOMER_PARTICULAR_VIEW_FAILURE,
       payload: payload
     };
   };

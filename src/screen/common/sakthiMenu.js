@@ -22,6 +22,7 @@ export const APP_LINK = {
   REGISTER: "/register",
   LOGOUT: "/logout",
   FORGOTPASSWORD: "/forgot-password",
+  CHANGEPASSWORD: "/change-password",
   OTP: "/otp",
   UPDATEADMIN: "/update-admin",
   VIEWADMIN: "/view-admin",
@@ -35,6 +36,7 @@ export const APP_LINK = {
   CUSTOMERDASHBOARD: "/customer/dashboard",
   VENDORDASHBOARD: "/vendor/dashboard",
   VENDORPAYMENTLIST: "/vendor/payment/list/:id",
+  CUSTOMERTRANSACTION: "/customer/transaction/list/:id",
 };
 
 const menuItems = [

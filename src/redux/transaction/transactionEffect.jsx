@@ -91,7 +91,27 @@ const transactionAddEffect = (formData) => {
       });
     });
   };
-  
+  const transactionCustomerParticularViewEffect = (id) => {
+    console.log(id);
+
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+    return new Promise((resolve, reject) => {
+      authInstance.request({
+        url: `/transactions/gettransactionbyvendor?vendor_id=${id}`,
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(handleApiError(error))
+      });
+    });
+  };
     
   const CustomerTransactionParticularViewEffect = (id) => {
     console.log(id);
@@ -99,7 +119,7 @@ const transactionAddEffect = (formData) => {
     console.log(token);
     return new Promise((resolve, reject) => {
       authInstance.request({
-        url: `/transactions/gettransactionbyvendor?vendor_id=${id}`,
+        url: `/transactions/gettransactionbycustomer?customer_id=${id}`,
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -139,5 +159,6 @@ const transactionAddEffect = (formData) => {
     transactionDeleteEffect,
     transactionViewEffect,
     transactionParticularViewEffect,
-    CustomerTransactionParticularViewEffect
+    CustomerTransactionParticularViewEffect,
+    transactionCustomerParticularViewEffect
   }

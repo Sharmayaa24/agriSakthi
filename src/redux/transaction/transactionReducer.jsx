@@ -15,6 +15,9 @@ import {
     TRANSACTION_PARTICULAR_VIEW_FAILURE,
     TRANSACTION_PARTICULAR_VIEW_PROGRESS,
     TRANSACTION_RESET_STATE,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_SUCCESS,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_FAILURE,
+    TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS,
   } from './transactionType';
   import {defaultStatus} from '../../screen/common/Dialogbox';
   
@@ -23,6 +26,7 @@ import {
     updateTransaction: {...defaultStatus},
     viewTransactions: {...defaultStatus},
     particularViewTransaction: {...defaultStatus},
+    particularCustomerViewTransaction: {...defaultStatus},
     deleteTransaction: {...defaultStatus},
   };
   
@@ -167,6 +171,7 @@ import {
             inProgress: true
           },
         };
+        
       case TRANSACTION_RESET_STATE:
         return {
           ...state,
@@ -179,6 +184,33 @@ import {
             inProgress: false,
           },
         };
+        case TRANSACTION_CUSTOMER_PARTICULAR_VIEW_SUCCESS:
+          return {
+            ...state,
+            particularCustomerViewTransaction: {
+              ...defaultStatus,
+              success: true,
+              data: payload.data,
+            },
+          };
+        case TRANSACTION_CUSTOMER_PARTICULAR_VIEW_FAILURE:
+          return {
+            ...state,
+            particularCustomerViewTransaction: {
+              ...defaultStatus,
+              error: true,
+              message: payload,
+            },
+          };
+        case TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS:
+          return {
+            ...state,
+            particularCustomerViewTransaction: {
+              ...defaultStatus,
+              inProgress: true
+            },
+          };
+          
   
       default:
         return state;

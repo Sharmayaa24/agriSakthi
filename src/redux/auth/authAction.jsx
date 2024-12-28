@@ -18,6 +18,9 @@ import {
   SIGN_UP_IN_PROGRESS,
   SIGN_UP_IN_SUCCESS,
   RESET_STATE,
+  VALIDATE_OTP_IN_FAILURE,
+  VALIDATE_OTP_IN_SUCCESS,
+  VALIDATE_OTP_IN_PROGRESS,
 } from './authTypes';
 
 export const logInProgress = payload => {
@@ -75,6 +78,8 @@ export const RegisterOtpFailure = payload => {
     payload: payload,
   };
 };
+
+
 export const ForgetPasswordInProgress = payload => {
   return {
     type: FORGOT_PASSWORD_IN_PROGRESS,
@@ -93,6 +98,31 @@ export const ForgetPasswordFailure = payload => {
     payload: payload,
   };
 };
+
+
+
+export const ValidateOtpInProgress = payload => {
+  console.log(payload, "validate")
+  return {
+    type: VALIDATE_OTP_IN_PROGRESS,
+    payload: payload,
+  };
+};
+export const ValidateOtpSuccess = payload => {
+  console.log(payload, "validate2")
+  return {
+    type: VALIDATE_OTP_IN_SUCCESS,
+    payload: payload,
+  };
+};
+export const ValidateOtpFailure = payload => {
+  console.log(payload, "validate3")
+  return {
+    type: VALIDATE_OTP_IN_FAILURE,
+    payload: payload,
+  };
+};
+
 export const RequestOtpInProgress = payload => {
   return {
     type: REQUEST_OTP_IN_PROGRESS,
@@ -111,6 +141,9 @@ export const RequestOtpFailure = payload => {
     payload: payload,
   };
 };
+
+
+
 export const ResendOtpInProgress = payload => {
   return {
     type: RESEND_OTP_IN_PROGRESS,

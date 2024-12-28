@@ -1,5 +1,5 @@
-import React from "react";
-import { Typography, Grid, Avatar, Box, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Typography, Grid, Avatar, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -7,52 +7,76 @@ import {
   StyledContainer,
   StyledButton,
   StyledTextField,
-  styles,
 } from "../../Styles/ComponentStyles/LoginStyles";
 import { ScaleLoader } from "react-spinners";
 import Logo from "../../image/logo.png";
-import { CheckCircle, Cancel } from "@mui/icons-material"; // Import icons
-import "../../Styles/login.css";
+import CommonDialog from "../common/Dialogbox";
+import { useDispatch, useSelector } from "react-redux";
+import { RequestOtpInProgress,ResetState } from "../../redux/auth/authAction"; 
 
 const ForgotPassword = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false); 
+  const [errorMessage, setErrorMessage] = useState(); 
+  const [loading, setLoading] = useState(false); 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = React.useState(false);
-  const [openDialog, setOpenDialog] = React.useState(false);
-  const [dialogMessage, setDialogMessage] = React.useState("");
-  const [dialogSuccess, setDialogSuccess] = React.useState(false);
-
-  const form = useForm({
-    defaultValues: {
-      email: "",
-    },
-  });
-
-  const { register, handleSubmit, formState } = form;
-  const { errors } = formState;
-
+  const otpMessage = useSelector((state) => state.login.requestOtp);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
+   useEffect(() => {
+     dispatch(ResetState());
+     setDialogOpen(false);
+     setIsSuccess(false);
+   }, [dispatch]);
   const onSubmit = (data) => {
+    const formData = { email: data.email, subject_type: "1" };
+    localStorage.setItem("email", data.email);
+    console.log(formData);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    
-      const isEmailValid = data.email === "sampleyaa@gmail.com"; 
-      if (isEmailValid) {
-        setDialogMessage("Password reset link sent to your email!");
-        setDialogSuccess(true);
-      } else {
-        setDialogMessage("Email not found! Please check your email.");
-        setDialogSuccess(false);
-      }
-      setOpenDialog(true);
-      form.reset();
-    }, 3000); 
+    dispatch(RequestOtpInProgress(formData));
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    if (dialogSuccess) {
-      navigate("/otp");
+  useEffect(() => {
+    if (otpMessage.success) {
+      dispatch(ResetState());
+      console.log(otpMessage.success);
+      setLoading(false); 
+      setErrorMessage("");
+      setSuccessMessage( otpMessage?.message ||"OTP has been successfully sent to your email!");
+      setIsSuccess(true);
+      setDialogOpen(true);
+      reset();
+      setTimeout(() => {
+        setDialogOpen(false);
+        setIsSuccess(false);
+        navigate("/otp");
+      }, 3000);
+    } else if (otpMessage.error) {
+      setLoading(false);
+      setSuccessMessage("/otp");
+      const errormessage = otpMessage.message; 
+      if (errormessage) {
+        console.log(errormessage);
+        if (errormessage.includes("Request failed with status code 400")) {
+          setErrorMessage("invalid email.");
+        }else {
+          setErrorMessage(errormessage || "An error occurred.");
+        }
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+      }
     }
+  }, [otpMessage, navigate, reset]);
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
   };
 
   return (
@@ -79,26 +103,31 @@ const ForgotPassword = () => {
                   message: "Missing Field Email",
                 },
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                  value: /^\S+@\S+$/i,
                   message: "Invalid Email",
                 },
               })}
-              error={!!errors.email}
+ error={!!errors.email}
               helperText={errors.email?.message}
             />
+             {errorMessage && (
+                           <Typography color="error" style={{ marginTop: "1rem" }}>
+                             {errorMessage}
+                           </Typography>
+                         )}
           </Grid>
           <Grid item xs={12}>
             <StyledButton
               variant="contained"
               fullWidth
               onClick={handleSubmit(onSubmit)}
-              disabled={formState.isSubmitting}
+              disabled={isSubmitting}
             >
-              {formState.isSubmitting ? "Sending..." : "Send Reset Link"}
+              {isSubmitting ? "Sending..." : "Send Reset Link"}
             </StyledButton>
           </Grid>
           <Grid item xs={12} align="center">
-            <Link to="/" style={styles.forgotPassword}>
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <Typography variant="body2" align="center" padding="8px" gutterBottom>
                 Back to Login
               </Typography>
@@ -126,16 +155,13 @@ const ForgotPassword = () => {
             </Box>
           </>
         )}
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>
-            {dialogSuccess ? <CheckCircle style={{ color: "green" }} /> : <Cancel style={{ color: "red " }} />}
-          </DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" align="center">
-              {dialogMessage}
-            </Typography>
-          </DialogContent>
-        </Dialog>
+        <CommonDialog
+          open={dialogOpen}
+          isSuccess={isSuccess}
+          onClose={handleCloseDialog}
+          messageSuccess={successMessage} 
+          messageError={errorMessage}  
+        />
       </StyledContainer>
     </StyledBox>
   );

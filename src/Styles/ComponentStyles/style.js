@@ -197,3 +197,48 @@ export const paginationStyles = {
     margin: "0 10px",
   },
 };
+const tableStyle = {
+  headingStyle: {
+    backgroundColor: "#ccc",
+    fontWeight: "bold",
+    borderTopLeftRadius: "12px",
+    borderTopRightRadius: "12px",
+    fontSize: "18px",
+  },
+  bottomStyle: {
+    backgroundColor: "#ccc",
+    fontWeight: "bold",
+    borderBottomLeftRadius: "12px",
+    borderBottomRightRadius: "12px",
+    fontSize: "18px",
+  },
+  centerRow: {
+    backgroundColor: "#ccc",
+    fontWeight: "bold",
+    fontSize: "18px",
+  },
+  ButtonFlex: {
+    display: "flex",
+    justifyContent: "end",
+    gap: "5px",
+    paddingTop: "10px",
+  },
+  editButton: {
+    color: "white",
+    backgroundColor: "#489767",
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    color: "white",
+    backgroundColor: "#febfb2",
+    fontWeight: "bold",
+  },
+  boxFlex: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: "50vh",
+    backgroundColor: "#f5f5f5",
+  },
+};

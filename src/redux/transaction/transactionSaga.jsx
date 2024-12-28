@@ -8,7 +8,9 @@ import {
   deleteTransactionFailure,
   viewTransaction,
   viewTransactionFailure,
-  viewParticularTransaction
+  viewParticularTransaction,
+  viewParticularCustomerTransaction,
+  viewParticularCustomerTransactionFailure
 } from './transactionAction'
 import {
   transactionAddEffect,
@@ -24,6 +26,7 @@ import {
   TRANSACTION_DELETE_PROGRESS,
   TRANSACTION_UPDATE_PROGRESS,
   TRANSACTION_PARTICULAR_VIEW_PROGRESS,
+  TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS,
 } from './transactionType';
 
 function* TransactionAdd({ payload }) {
@@ -123,7 +126,7 @@ function* customerTransactionParticularView({payload}) {
   try {
     let {data} = yield call(CustomerTransactionParticularViewEffect, payload);
     yield put(
-      viewParticularTransaction({
+      viewParticularCustomerTransaction({
         data: data,
         message: data['message'],
         success: true,
@@ -131,7 +134,7 @@ function* customerTransactionParticularView({payload}) {
     );
   } catch (err) {
     yield put(
-      viewTransactionFailure({
+      viewParticularCustomerTransactionFailure({
         error: true,
         message: err['message'],
       }),
@@ -144,5 +147,5 @@ export default function* transactionSaga() {
   yield takeLatest(TRANSACTION_DELETE_PROGRESS, TransactionDelete);
   yield takeLatest(TRANSACTION_VIEW_PROGRESS, TransactionView);
   yield takeLatest(TRANSACTION_PARTICULAR_VIEW_PROGRESS, TransactionParticularView);
-  yield takeLatest(TRANSACTION_PARTICULAR_VIEW_PROGRESS, customerTransactionParticularView);
+  yield takeLatest(TRANSACTION_CUSTOMER_PARTICULAR_VIEW_PROGRESS, customerTransactionParticularView);
 }
